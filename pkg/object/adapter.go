@@ -49,7 +49,7 @@ func InitConfig() {
 
 func InitAdapter(createDatabase bool) {
 
-	adapter = NewAdapter(webvr.AppConfig.String("driverName"), conf.GetBhojpurConfDataSourceName(), websvr.AppConfig.String("dbName"))
+	adapter = NewAdapter(websvr.AppConfig.String("driverName"), conf.GetBhojpurConfDataSourceName(), websvr.AppConfig.String("dbName"))
 	if createDatabase {
 		adapter.CreateDatabase()
 	}

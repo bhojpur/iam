@@ -3,6 +3,7 @@ module github.com/bhojpur/iam
 go 1.17
 
 require (
+	github.com/bhojpur/web v0.0.3
 	github.com/lib/pq v1.10.4
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cobra v1.3.0
