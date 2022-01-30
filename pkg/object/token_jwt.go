@@ -37,8 +37,8 @@ type Claims struct {
 }
 
 type UserShort struct {
-	Owner string `xorm:"varchar(100) notnull pk" json:"owner"`
-	Name  string `xorm:"varchar(100) notnull pk" json:"name"`
+	Owner string `orm:"varchar(100) notnull pk" json:"owner"`
+	Name  string `orm:"varchar(100) notnull pk" json:"name"`
 }
 
 type ClaimsShort struct {

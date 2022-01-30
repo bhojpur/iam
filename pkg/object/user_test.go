@@ -26,7 +26,7 @@ import (
 	"testing"
 
 	"github.com/bhojpur/iam/pkg/utils"
-	"xorm.io/core"
+	"github.com/bhopur/dbm/pkg/core"
 )
 
 func updateUserColumn(column string, user *User) bool {

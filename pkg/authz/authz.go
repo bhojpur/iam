@@ -24,8 +24,8 @@ import (
 	"github.com/bhojpur/iam/pkg/conf"
 	plcsvr "github.com/bhojpur/policy/pkg/engine"
 	model "github.com/bhojpur/policy/pkg/model"
+	ormadapter "github.com/bhojpur/policy/pkg/orm-adapter"
 	stringadapter "github.com/bhojpur/policy/pkg/string-adapter"
-	xormadapter "github.com/bhojpur/policy/pkg/xorm-adapter"
 	websvr "github.com/bhojpur/web/pkg/engine"
 )
 
@@ -35,7 +35,7 @@ func InitAuthz() {
 	var err error
 
 	tableNamePrefix := websvr.AppConfig.String("tableNamePrefix")
-	a, err := xormadapter.NewAdapterWithTableName(websvr.AppConfig.String("driverName"), conf.GetBhojpurConfDataSourceName()+websvr.AppConfig.String("dbName"), "iam_rule", tableNamePrefix, true)
+	a, err := ormadapter.NewAdapterWithTableName(websvr.AppConfig.String("driverName"), conf.GetBhojpurConfDataSourceName()+websvr.AppConfig.String("dbName"), "iam_rule", tableNamePrefix, true)
 	if err != nil {
 		panic(err)
 	}
@@ -115,7 +115,7 @@ p, *, *, POST, /api/acs, *, *
 			panic(err)
 		}
 
-		// save all rules from enforcer's memory to Xorm adapter (DB)
+		// save all rules from enforcer's memory to ORM adapter (DB)
 		// same as:
 		// a.SavePolicy(Enforcer.GetModel())
 		err = Enforcer.SavePolicy()

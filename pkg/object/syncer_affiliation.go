@@ -21,8 +21,8 @@ package object
 // THE SOFTWARE.
 
 type Affiliation struct {
-	Id   int    `xorm:"int notnull pk autoincr" json:"id"`
-	Name string `xorm:"varchar(128)" json:"name"`
+	Id   int    `orm:"int notnull pk autoincr" json:"id"`
+	Name string `orm:"varchar(128)" json:"name"`
 }
 
 func (syncer *Syncer) getAffiliations() []*Affiliation {

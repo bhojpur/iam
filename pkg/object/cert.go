@@ -24,23 +24,23 @@ import (
 	"fmt"
 
 	"github.com/bhojpur/iam/pkg/utils"
-	"xorm.io/core"
+	"github.com/bhopur/dbm/pkg/core"
 )
 
 type Cert struct {
-	Owner       string `xorm:"varchar(100) notnull pk" json:"owner"`
-	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
-	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
+	Owner       string `orm:"varchar(100) notnull pk" json:"owner"`
+	Name        string `orm:"varchar(100) notnull pk" json:"name"`
+	CreatedTime string `orm:"varchar(100)" json:"createdTime"`
 
-	DisplayName     string `xorm:"varchar(100)" json:"displayName"`
-	Scope           string `xorm:"varchar(100)" json:"scope"`
-	Type            string `xorm:"varchar(100)" json:"type"`
-	CryptoAlgorithm string `xorm:"varchar(100)" json:"cryptoAlgorithm"`
+	DisplayName     string `orm:"varchar(100)" json:"displayName"`
+	Scope           string `orm:"varchar(100)" json:"scope"`
+	Type            string `orm:"varchar(100)" json:"type"`
+	CryptoAlgorithm string `orm:"varchar(100)" json:"cryptoAlgorithm"`
 	BitSize         int    `json:"bitSize"`
 	ExpireInYears   int    `json:"expireInYears"`
 
-	PublicKey  string `xorm:"mediumtext" json:"publicKey"`
-	PrivateKey string `xorm:"mediumtext" json:"privateKey"`
+	PublicKey  string `orm:"mediumtext" json:"publicKey"`
+	PrivateKey string `orm:"mediumtext" json:"privateKey"`
 }
 
 func GetMaskedCert(cert *Cert) *Cert {

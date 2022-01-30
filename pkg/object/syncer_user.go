@@ -26,7 +26,7 @@ import (
 	"time"
 
 	"github.com/bhojpur/iam/pkg/utils"
-	"xorm.io/core"
+	"github.com/bhopur/dbm/pkg/core"
 )
 
 type OriginalUser = User

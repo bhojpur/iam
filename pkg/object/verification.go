@@ -28,21 +28,21 @@ import (
 
 	"github.com/bhojpur/iam/pkg/utils"
 	websvr "github.com/bhojpur/web/pkg/engine"
-	"xorm.io/core"
+	"github.com/bhopur/dbm/pkg/core"
 )
 
 type VerificationRecord struct {
-	Owner       string `xorm:"varchar(100) notnull pk" json:"owner"`
-	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
-	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
+	Owner       string `orm:"varchar(100) notnull pk" json:"owner"`
+	Name        string `orm:"varchar(100) notnull pk" json:"name"`
+	CreatedTime string `orm:"varchar(100)" json:"createdTime"`
 
-	RemoteAddr string `xorm:"varchar(100)"`
-	Type       string `xorm:"varchar(10)"`
-	User       string `xorm:"varchar(100) notnull"`
-	Provider   string `xorm:"varchar(100) notnull"`
-	Receiver   string `xorm:"varchar(100) notnull"`
-	Code       string `xorm:"varchar(10) notnull"`
-	Time       int64  `xorm:"notnull"`
+	RemoteAddr string `orm:"varchar(100)"`
+	Type       string `orm:"varchar(10)"`
+	User       string `orm:"varchar(100) notnull"`
+	Provider   string `orm:"varchar(100) notnull"`
+	Receiver   string `orm:"varchar(100) notnull"`
+	Code       string `orm:"varchar(10) notnull"`
+	Time       int64  `orm:"notnull"`
 	IsUsed     bool
 }
 

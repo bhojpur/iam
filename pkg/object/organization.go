@@ -25,22 +25,22 @@ import (
 
 	"github.com/bhojpur/iam/pkg/cred"
 	"github.com/bhojpur/iam/pkg/utils"
-	"xorm.io/core"
+	"github.com/bhopur/dbm/pkg/core"
 )
 
 type Organization struct {
-	Owner       string `xorm:"varchar(100) notnull pk" json:"owner"`
-	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
-	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
+	Owner       string `orm:"varchar(100) notnull pk" json:"owner"`
+	Name        string `orm:"varchar(100) notnull pk" json:"name"`
+	CreatedTime string `orm:"varchar(100)" json:"createdTime"`
 
-	DisplayName        string `xorm:"varchar(100)" json:"displayName"`
-	WebsiteUrl         string `xorm:"varchar(100)" json:"websiteUrl"`
-	Favicon            string `xorm:"varchar(100)" json:"favicon"`
-	PasswordType       string `xorm:"varchar(100)" json:"passwordType"`
-	PasswordSalt       string `xorm:"varchar(100)" json:"passwordSalt"`
-	PhonePrefix        string `xorm:"varchar(10)"  json:"phonePrefix"`
-	DefaultAvatar      string `xorm:"varchar(100)" json:"defaultAvatar"`
-	MasterPassword     string `xorm:"varchar(100)" json:"masterPassword"`
+	DisplayName        string `orm:"varchar(100)" json:"displayName"`
+	WebsiteUrl         string `orm:"varchar(100)" json:"websiteUrl"`
+	Favicon            string `orm:"varchar(100)" json:"favicon"`
+	PasswordType       string `orm:"varchar(100)" json:"passwordType"`
+	PasswordSalt       string `orm:"varchar(100)" json:"passwordSalt"`
+	PhonePrefix        string `orm:"varchar(10)"  json:"phonePrefix"`
+	DefaultAvatar      string `orm:"varchar(100)" json:"defaultAvatar"`
+	MasterPassword     string `orm:"varchar(100)" json:"masterPassword"`
 	EnableSoftDeletion bool   `json:"enableSoftDeletion"`
 }
 

@@ -24,25 +24,25 @@ import (
 	"fmt"
 
 	"github.com/bhojpur/iam/pkg/utils"
-	"xorm.io/core"
+	"github.com/bhopur/dbm/pkg/core"
 )
 
 type Resource struct {
-	Owner       string `xorm:"varchar(100) notnull pk" json:"owner"`
-	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
-	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
+	Owner       string `orm:"varchar(100) notnull pk" json:"owner"`
+	Name        string `orm:"varchar(100) notnull pk" json:"name"`
+	CreatedTime string `orm:"varchar(100)" json:"createdTime"`
 
-	User        string `xorm:"varchar(100)" json:"user"`
-	Provider    string `xorm:"varchar(100)" json:"provider"`
-	Application string `xorm:"varchar(100)" json:"application"`
-	Tag         string `xorm:"varchar(100)" json:"tag"`
-	Parent      string `xorm:"varchar(100)" json:"parent"`
-	FileName    string `xorm:"varchar(100)" json:"fileName"`
-	FileType    string `xorm:"varchar(100)" json:"fileType"`
-	FileFormat  string `xorm:"varchar(100)" json:"fileFormat"`
+	User        string `orm:"varchar(100)" json:"user"`
+	Provider    string `orm:"varchar(100)" json:"provider"`
+	Application string `orm:"varchar(100)" json:"application"`
+	Tag         string `orm:"varchar(100)" json:"tag"`
+	Parent      string `orm:"varchar(100)" json:"parent"`
+	FileName    string `orm:"varchar(100)" json:"fileName"`
+	FileType    string `orm:"varchar(100)" json:"fileType"`
+	FileFormat  string `orm:"varchar(100)" json:"fileFormat"`
 	FileSize    int    `json:"fileSize"`
-	Url         string `xorm:"varchar(1000)" json:"url"`
-	Description string `xorm:"varchar(1000)" json:"description"`
+	Url         string `orm:"varchar(1000)" json:"url"`
+	Description string `orm:"varchar(1000)" json:"description"`
 }
 
 func GetResourceCount(owner, user, field, value string) int {

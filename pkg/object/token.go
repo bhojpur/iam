@@ -27,30 +27,30 @@ import (
 	"strings"
 
 	"github.com/bhojpur/iam/pkg/utils"
-	"xorm.io/core"
+	"github.com/bhopur/dbm/pkg/core"
 )
 
 type Code struct {
-	Message string `xorm:"varchar(100)" json:"message"`
-	Code    string `xorm:"varchar(100)" json:"code"`
+	Message string `orm:"varchar(100)" json:"message"`
+	Code    string `orm:"varchar(100)" json:"code"`
 }
 
 type Token struct {
-	Owner       string `xorm:"varchar(100) notnull pk" json:"owner"`
-	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
-	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
+	Owner       string `orm:"varchar(100) notnull pk" json:"owner"`
+	Name        string `orm:"varchar(100) notnull pk" json:"name"`
+	CreatedTime string `orm:"varchar(100)" json:"createdTime"`
 
-	Application  string `xorm:"varchar(100)" json:"application"`
-	Organization string `xorm:"varchar(100)" json:"organization"`
-	User         string `xorm:"varchar(100)" json:"user"`
+	Application  string `orm:"varchar(100)" json:"application"`
+	Organization string `orm:"varchar(100)" json:"organization"`
+	User         string `orm:"varchar(100)" json:"user"`
 
-	Code          string `xorm:"varchar(100)" json:"code"`
-	AccessToken   string `xorm:"mediumtext" json:"accessToken"`
-	RefreshToken  string `xorm:"mediumtext" json:"refreshToken"`
+	Code          string `orm:"varchar(100)" json:"code"`
+	AccessToken   string `orm:"mediumtext" json:"accessToken"`
+	RefreshToken  string `orm:"mediumtext" json:"refreshToken"`
 	ExpiresIn     int    `json:"expiresIn"`
-	Scope         string `xorm:"varchar(100)" json:"scope"`
-	TokenType     string `xorm:"varchar(100)" json:"tokenType"`
-	CodeChallenge string `xorm:"varchar(100)" json:"codeChallenge"`
+	Scope         string `orm:"varchar(100)" json:"scope"`
+	TokenType     string `orm:"varchar(100)" json:"tokenType"`
+	CodeChallenge string `orm:"varchar(100)" json:"codeChallenge"`
 }
 
 type TokenWrapper struct {

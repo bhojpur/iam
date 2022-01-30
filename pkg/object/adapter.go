@@ -24,7 +24,8 @@ import (
 	"fmt"
 	"runtime"
 
-	"xorm.io/core"
+	"github.com/bhopur/dbm/pkg/core"
+	"github.com/bhopur/dbm/pkg/orm"
 
 	"github.com/bhojpur/iam/pkg/conf"
 	"github.com/bhojpur/iam/pkg/utils"
@@ -33,7 +34,6 @@ import (
 	//_ "github.com/denisenkom/go-mssqldb" // db = mssql
 	_ "github.com/go-sql-driver/mysql" // db = mysql
 	//_ "github.com/lib/pq"                // db = postgres
-	"xorm.io/xorm"
 )
 
 var adapter *Adapter
@@ -61,7 +61,7 @@ type Adapter struct {
 	driverName     string
 	dataSourceName string
 	dbName         string
-	Engine         *xorm.Engine
+	Engine         *orm.Engine
 }
 
 // finalizer is the destructor for Adapter.
@@ -89,7 +89,7 @@ func NewAdapter(driverName string, dataSourceName string, dbName string) *Adapte
 }
 
 func (a *Adapter) CreateDatabase() error {
-	engine, err := xorm.NewEngine(a.driverName, a.dataSourceName)
+	engine, err := orm.NewEngine(a.driverName, a.dataSourceName)
 	if err != nil {
 		return err
 	}
@@ -105,7 +105,7 @@ func (a *Adapter) open() {
 		dataSourceName = a.dataSourceName
 	}
 
-	engine, err := xorm.NewEngine(a.driverName, dataSourceName)
+	engine, err := orm.NewEngine(a.driverName, dataSourceName)
 	if err != nil {
 		panic(err)
 	}
@@ -197,7 +197,7 @@ func (a *Adapter) createTable() {
 	}
 }
 
-func GetSession(owner string, offset, limit int, field, value, sortField, sortOrder string) *xorm.Session {
+func GetSession(owner string, offset, limit int, field, value, sortField, sortOrder string) *orm.Session {
 	session := adapter.Engine.Limit(limit, offset).Where("1=1")
 	if owner != "" {
 		session = session.And("owner=?", owner)

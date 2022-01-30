@@ -24,7 +24,7 @@ import (
 	"fmt"
 
 	"github.com/bhojpur/iam/pkg/utils"
-	"xorm.io/core"
+	"github.com/bhopur/dbm/pkg/core"
 )
 
 type Header struct {
@@ -33,17 +33,17 @@ type Header struct {
 }
 
 type Webhook struct {
-	Owner       string `xorm:"varchar(100) notnull pk" json:"owner"`
-	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
-	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
+	Owner       string `orm:"varchar(100) notnull pk" json:"owner"`
+	Name        string `orm:"varchar(100) notnull pk" json:"name"`
+	CreatedTime string `orm:"varchar(100)" json:"createdTime"`
 
-	Organization string `xorm:"varchar(100) index" json:"organization"`
+	Organization string `orm:"varchar(100) index" json:"organization"`
 
-	Url            string    `xorm:"varchar(100)" json:"url"`
-	Method         string    `xorm:"varchar(100)" json:"method"`
-	ContentType    string    `xorm:"varchar(100)" json:"contentType"`
-	Headers        []*Header `xorm:"mediumtext" json:"headers"`
-	Events         []string  `xorm:"varchar(100)" json:"events"`
+	Url            string    `orm:"varchar(100)" json:"url"`
+	Method         string    `orm:"varchar(100)" json:"method"`
+	ContentType    string    `orm:"varchar(100)" json:"contentType"`
+	Headers        []*Header `orm:"mediumtext" json:"headers"`
+	Events         []string  `orm:"varchar(100)" json:"events"`
 	IsUserExtended bool      `json:"isUserExtended"`
 	IsEnabled      bool      `json:"isEnabled"`
 }

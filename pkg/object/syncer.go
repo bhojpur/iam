@@ -24,7 +24,7 @@ import (
 	"fmt"
 
 	"github.com/bhojpur/iam/pkg/utils"
-	"xorm.io/core"
+	"github.com/bhopur/dbm/pkg/core"
 )
 
 type TableColumn struct {
@@ -36,29 +36,29 @@ type TableColumn struct {
 }
 
 type Syncer struct {
-	Owner       string `xorm:"varchar(100) notnull pk" json:"owner"`
-	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
-	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
+	Owner       string `orm:"varchar(100) notnull pk" json:"owner"`
+	Name        string `orm:"varchar(100) notnull pk" json:"name"`
+	CreatedTime string `orm:"varchar(100)" json:"createdTime"`
 
-	Organization string `xorm:"varchar(100)" json:"organization"`
-	Type         string `xorm:"varchar(100)" json:"type"`
+	Organization string `orm:"varchar(100)" json:"organization"`
+	Type         string `orm:"varchar(100)" json:"type"`
 
-	Host             string         `xorm:"varchar(100)" json:"host"`
+	Host             string         `orm:"varchar(100)" json:"host"`
 	Port             int            `json:"port"`
-	User             string         `xorm:"varchar(100)" json:"user"`
-	Password         string         `xorm:"varchar(100)" json:"password"`
-	DatabaseType     string         `xorm:"varchar(100)" json:"databaseType"`
-	Database         string         `xorm:"varchar(100)" json:"database"`
-	Table            string         `xorm:"varchar(100)" json:"table"`
-	TablePrimaryKey  string         `xorm:"varchar(100)" json:"tablePrimaryKey"`
-	TableColumns     []*TableColumn `xorm:"mediumtext" json:"tableColumns"`
-	AffiliationTable string         `xorm:"varchar(100)" json:"affiliationTable"`
-	AvatarBaseUrl    string         `xorm:"varchar(100)" json:"avatarBaseUrl"`
-	ErrorText        string         `xorm:"mediumtext" json:"errorText"`
+	User             string         `orm:"varchar(100)" json:"user"`
+	Password         string         `orm:"varchar(100)" json:"password"`
+	DatabaseType     string         `orm:"varchar(100)" json:"databaseType"`
+	Database         string         `orm:"varchar(100)" json:"database"`
+	Table            string         `orm:"varchar(100)" json:"table"`
+	TablePrimaryKey  string         `orm:"varchar(100)" json:"tablePrimaryKey"`
+	TableColumns     []*TableColumn `orm:"mediumtext" json:"tableColumns"`
+	AffiliationTable string         `orm:"varchar(100)" json:"affiliationTable"`
+	AvatarBaseUrl    string         `orm:"varchar(100)" json:"avatarBaseUrl"`
+	ErrorText        string         `orm:"mediumtext" json:"errorText"`
 	SyncInterval     int            `json:"syncInterval"`
 	IsEnabled        bool           `json:"isEnabled"`
 
-	Adapter *Adapter `xorm:"-" json:"-"`
+	Adapter *Adapter `orm:"-" json:"-"`
 }
 
 func GetSyncerCount(owner, field, value string) int {

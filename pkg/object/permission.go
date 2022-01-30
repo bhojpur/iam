@@ -24,22 +24,22 @@ import (
 	"fmt"
 
 	"github.com/bhojpur/iam/pkg/utils"
-	"xorm.io/core"
+	"github.com/bhopur/dbm/pkg/core"
 )
 
 type Permission struct {
-	Owner       string `xorm:"varchar(100) notnull pk" json:"owner"`
-	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
-	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
-	DisplayName string `xorm:"varchar(100)" json:"displayName"`
+	Owner       string `orm:"varchar(100) notnull pk" json:"owner"`
+	Name        string `orm:"varchar(100) notnull pk" json:"name"`
+	CreatedTime string `orm:"varchar(100)" json:"createdTime"`
+	DisplayName string `orm:"varchar(100)" json:"displayName"`
 
-	Users []string `xorm:"mediumtext" json:"users"`
-	Roles []string `xorm:"mediumtext" json:"roles"`
+	Users []string `orm:"mediumtext" json:"users"`
+	Roles []string `orm:"mediumtext" json:"roles"`
 
-	ResourceType string   `xorm:"varchar(100)" json:"resourceType"`
-	Resources    []string `xorm:"mediumtext" json:"resources"`
-	Actions      []string `xorm:"mediumtext" json:"actions"`
-	Effect       string   `xorm:"varchar(100)" json:"effect"`
+	ResourceType string   `orm:"varchar(100)" json:"resourceType"`
+	Resources    []string `orm:"mediumtext" json:"resources"`
+	Actions      []string `orm:"mediumtext" json:"actions"`
+	Effect       string   `orm:"varchar(100)" json:"effect"`
 
 	IsEnabled bool `json:"isEnabled"`
 }

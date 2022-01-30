@@ -31,19 +31,19 @@ import (
 )
 
 type Ldap struct {
-	Id          string `xorm:"varchar(100) notnull pk" json:"id"`
-	Owner       string `xorm:"varchar(100)" json:"owner"`
-	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
+	Id          string `orm:"varchar(100) notnull pk" json:"id"`
+	Owner       string `orm:"varchar(100)" json:"owner"`
+	CreatedTime string `orm:"varchar(100)" json:"createdTime"`
 
-	ServerName string `xorm:"varchar(100)" json:"serverName"`
-	Host       string `xorm:"varchar(100)" json:"host"`
+	ServerName string `orm:"varchar(100)" json:"serverName"`
+	Host       string `orm:"varchar(100)" json:"host"`
 	Port       int    `json:"port"`
-	Admin      string `xorm:"varchar(100)" json:"admin"`
-	Passwd     string `xorm:"varchar(100)" json:"passwd"`
-	BaseDn     string `xorm:"varchar(100)" json:"baseDn"`
+	Admin      string `orm:"varchar(100)" json:"admin"`
+	Passwd     string `orm:"varchar(100)" json:"passwd"`
+	BaseDn     string `orm:"varchar(100)" json:"baseDn"`
 
 	AutoSync int    `json:"autoSync"`
-	LastSync string `xorm:"varchar(100)" json:"lastSync"`
+	LastSync string `orm:"varchar(100)" json:"lastSync"`
 }
 
 type ldapConn struct {

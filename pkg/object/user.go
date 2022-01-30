@@ -25,38 +25,38 @@ import (
 	"strings"
 
 	"github.com/bhojpur/iam/pkg/utils"
-	"xorm.io/core"
+	"github.com/bhopur/dbm/pkg/core"
 )
 
 type User struct {
-	Owner       string `xorm:"varchar(100) notnull pk" json:"owner"`
-	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
-	CreatedTime string `xorm:"varchar(100)" json:"createdTime"`
-	UpdatedTime string `xorm:"varchar(100)" json:"updatedTime"`
+	Owner       string `orm:"varchar(100) notnull pk" json:"owner"`
+	Name        string `orm:"varchar(100) notnull pk" json:"name"`
+	CreatedTime string `orm:"varchar(100)" json:"createdTime"`
+	UpdatedTime string `orm:"varchar(100)" json:"updatedTime"`
 
-	Id                string   `xorm:"varchar(100) index" json:"id"`
-	Type              string   `xorm:"varchar(100)" json:"type"`
-	Password          string   `xorm:"varchar(100)" json:"password"`
-	PasswordSalt      string   `xorm:"varchar(100)" json:"passwordSalt"`
-	DisplayName       string   `xorm:"varchar(100)" json:"displayName"`
-	Avatar            string   `xorm:"varchar(500)" json:"avatar"`
-	PermanentAvatar   string   `xorm:"varchar(500)" json:"permanentAvatar"`
-	Email             string   `xorm:"varchar(100) index" json:"email"`
-	Phone             string   `xorm:"varchar(100) index" json:"phone"`
-	Location          string   `xorm:"varchar(100)" json:"location"`
+	Id                string   `orm:"varchar(100) index" json:"id"`
+	Type              string   `orm:"varchar(100)" json:"type"`
+	Password          string   `orm:"varchar(100)" json:"password"`
+	PasswordSalt      string   `orm:"varchar(100)" json:"passwordSalt"`
+	DisplayName       string   `orm:"varchar(100)" json:"displayName"`
+	Avatar            string   `orm:"varchar(500)" json:"avatar"`
+	PermanentAvatar   string   `orm:"varchar(500)" json:"permanentAvatar"`
+	Email             string   `orm:"varchar(100) index" json:"email"`
+	Phone             string   `orm:"varchar(100) index" json:"phone"`
+	Location          string   `orm:"varchar(100)" json:"location"`
 	Address           []string `json:"address"`
-	Affiliation       string   `xorm:"varchar(100)" json:"affiliation"`
-	Title             string   `xorm:"varchar(100)" json:"title"`
-	IdCardType        string   `xorm:"varchar(100)" json:"idCardType"`
-	IdCard            string   `xorm:"varchar(100) index" json:"idCard"`
-	Homepage          string   `xorm:"varchar(100)" json:"homepage"`
-	Bio               string   `xorm:"varchar(100)" json:"bio"`
-	Tag               string   `xorm:"varchar(100)" json:"tag"`
-	Region            string   `xorm:"varchar(100)" json:"region"`
-	Language          string   `xorm:"varchar(100)" json:"language"`
-	Gender            string   `xorm:"varchar(100)" json:"gender"`
-	Birthday          string   `xorm:"varchar(100)" json:"birthday"`
-	Education         string   `xorm:"varchar(100)" json:"education"`
+	Affiliation       string   `orm:"varchar(100)" json:"affiliation"`
+	Title             string   `orm:"varchar(100)" json:"title"`
+	IdCardType        string   `orm:"varchar(100)" json:"idCardType"`
+	IdCard            string   `orm:"varchar(100) index" json:"idCard"`
+	Homepage          string   `orm:"varchar(100)" json:"homepage"`
+	Bio               string   `orm:"varchar(100)" json:"bio"`
+	Tag               string   `orm:"varchar(100)" json:"tag"`
+	Region            string   `orm:"varchar(100)" json:"region"`
+	Language          string   `orm:"varchar(100)" json:"language"`
+	Gender            string   `orm:"varchar(100)" json:"gender"`
+	Birthday          string   `orm:"varchar(100)" json:"birthday"`
+	Education         string   `orm:"varchar(100)" json:"education"`
 	Score             int      `json:"score"`
 	Ranking           int      `json:"ranking"`
 	IsDefaultAvatar   bool     `json:"isDefaultAvatar"`
@@ -65,31 +65,31 @@ type User struct {
 	IsGlobalAdmin     bool     `json:"isGlobalAdmin"`
 	IsForbidden       bool     `json:"isForbidden"`
 	IsDeleted         bool     `json:"isDeleted"`
-	SignupApplication string   `xorm:"varchar(100)" json:"signupApplication"`
-	Hash              string   `xorm:"varchar(100)" json:"hash"`
-	PreHash           string   `xorm:"varchar(100)" json:"preHash"`
+	SignupApplication string   `orm:"varchar(100)" json:"signupApplication"`
+	Hash              string   `orm:"varchar(100)" json:"hash"`
+	PreHash           string   `orm:"varchar(100)" json:"preHash"`
 
-	CreatedIp      string `xorm:"varchar(100)" json:"createdIp"`
-	LastSigninTime string `xorm:"varchar(100)" json:"lastSigninTime"`
-	LastSigninIp   string `xorm:"varchar(100)" json:"lastSigninIp"`
+	CreatedIp      string `orm:"varchar(100)" json:"createdIp"`
+	LastSigninTime string `orm:"varchar(100)" json:"lastSigninTime"`
+	LastSigninIp   string `orm:"varchar(100)" json:"lastSigninIp"`
 
-	Github   string `xorm:"varchar(100)" json:"github"`
-	Google   string `xorm:"varchar(100)" json:"google"`
-	QQ       string `xorm:"qq varchar(100)" json:"qq"`
-	WeChat   string `xorm:"wechat varchar(100)" json:"wechat"`
-	Facebook string `xorm:"facebook varchar(100)" json:"facebook"`
-	DingTalk string `xorm:"dingtalk varchar(100)" json:"dingtalk"`
-	Weibo    string `xorm:"weibo varchar(100)" json:"weibo"`
-	Gitee    string `xorm:"gitee varchar(100)" json:"gitee"`
-	LinkedIn string `xorm:"linkedin varchar(100)" json:"linkedin"`
-	Wecom    string `xorm:"wecom varchar(100)" json:"wecom"`
-	Lark     string `xorm:"lark varchar(100)" json:"lark"`
-	Gitlab   string `xorm:"gitlab varchar(100)" json:"gitlab"`
-	Apple    string `xorm:"apple varchar(100)" json:"apple"`
-	AzureAD  string `xorm:"azuread varchar(100)" json:"azuread"`
-	Slack    string `xorm:"slack varchar(100)" json:"slack"`
+	Github   string `orm:"varchar(100)" json:"github"`
+	Google   string `orm:"varchar(100)" json:"google"`
+	QQ       string `orm:"qq varchar(100)" json:"qq"`
+	WeChat   string `orm:"wechat varchar(100)" json:"wechat"`
+	Facebook string `orm:"facebook varchar(100)" json:"facebook"`
+	DingTalk string `orm:"dingtalk varchar(100)" json:"dingtalk"`
+	Weibo    string `orm:"weibo varchar(100)" json:"weibo"`
+	Gitee    string `orm:"gitee varchar(100)" json:"gitee"`
+	LinkedIn string `orm:"linkedin varchar(100)" json:"linkedin"`
+	Wecom    string `orm:"wecom varchar(100)" json:"wecom"`
+	Lark     string `orm:"lark varchar(100)" json:"lark"`
+	Gitlab   string `orm:"gitlab varchar(100)" json:"gitlab"`
+	Apple    string `orm:"apple varchar(100)" json:"apple"`
+	AzureAD  string `orm:"azuread varchar(100)" json:"azuread"`
+	Slack    string `orm:"slack varchar(100)" json:"slack"`
 
-	Ldap       string            `xorm:"ldap varchar(100)" json:"ldap"`
+	Ldap       string            `orm:"ldap varchar(100)" json:"ldap"`
 	Properties map[string]string `json:"properties"`
 }
 

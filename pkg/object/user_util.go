@@ -26,7 +26,7 @@ import (
 	"strings"
 
 	"github.com/bhojpur/iam/pkg/idp"
-	"xorm.io/core"
+	"github.com/bhopur/dbm/pkg/core"
 )
 
 func GetUserByField(organizationName string, field string, value string) *User {
