@@ -28,7 +28,7 @@ import (
 	"github.com/bhojpur/iam/pkg/proxy"
 	"github.com/bhojpur/iam/pkg/router"
 	_ "github.com/bhojpur/iam/pkg/router"
-	logs "github.com/bhojpur/logger/pkg/engine"
+	logsvr "github.com/bhojpur/logger/pkg/engine"
 	websvr "github.com/bhojpur/web/pkg/engine"
 	"github.com/bhojpur/web/pkg/plugins/cors"
 	_ "github.com/bhojpur/web/pkg/session/redis"
@@ -59,7 +59,6 @@ func main() {
 	websvr.BConfig.WebConfig.DirectoryIndex = true
 	websvr.SetStaticPath("/swagger", "swagger")
 	websvr.SetStaticPath("/files", "files")
-	// https://studygolang.com/articles/2303
 	websvr.InsertFilter("*", websvr.BeforeRouter, router.StaticFilter)
 	websvr.InsertFilter("*", websvr.BeforeRouter, router.AutoSigninFilter)
 	websvr.InsertFilter("*", websvr.BeforeRouter, router.AuthzFilter)
@@ -76,12 +75,12 @@ func main() {
 	websvr.BConfig.WebConfig.Session.SessionCookieLifeTime = 3600 * 24 * 30
 	//websvr.BConfig.WebConfig.Session.SessionCookieSameSite = http.SameSiteNoneMode
 
-	err := logs.SetLogger("file", `{"filename":"logs/bhojpur_iam.log","maxdays":99999,"perm":"0770"}`)
+	err := logsvr.SetLogger("file", `{"filename":"logs/bhojpur_iam.log","maxdays":99999,"perm":"0770"}`)
 	if err != nil {
 		panic(err)
 	}
 	//logs.SetLevel(logs.LevelInformational)
-	logs.SetLogFuncCall(false)
+	logsvr.SetLogFuncCall(false)
 
 	websvr.Run()
 }

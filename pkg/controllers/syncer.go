@@ -23,8 +23,8 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/bhojpur/iam/pkg//utils"
 	"github.com/bhojpur/iam/pkg/object"
+	"github.com/bhojpur/iam/pkg/utils"
 	pagination "github.com/bhojpur/web/pkg/utils/pagination"
 )
 

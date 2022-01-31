@@ -24,8 +24,8 @@ import (
 	"github.com/bhojpur/iam/pkg/conf"
 	plcsvr "github.com/bhojpur/policy/pkg/engine"
 	model "github.com/bhojpur/policy/pkg/model"
-	ormadapter "github.com/bhojpur/policy/pkg/orm-adapter"
-	stringadapter "github.com/bhojpur/policy/pkg/string-adapter"
+	ormadapter "github.com/bhojpur/policy/pkg/persist/orm-adapter"
+	stringadapter "github.com/bhojpur/policy/pkg/persist/string-adapter"
 	websvr "github.com/bhojpur/web/pkg/engine"
 )
 
