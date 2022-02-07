@@ -46,7 +46,7 @@ type SessionData struct {
 func (c *ApiController) IsGlobalAdmin() bool {
 	username := c.GetSessionUsername()
 	if strings.HasPrefix(username, "app/") {
-		// e.g., "app/app-firewawall"
+		// e.g., "app/app-casnode"
 		return true
 	}
 
@@ -76,6 +76,28 @@ func (c *ApiController) GetSessionUsername() string {
 	}
 
 	return user.(string)
+}
+
+func (c *ApiController) GetSessionOidc() (string, string) {
+	sessionData := c.GetSessionData()
+	if sessionData != nil &&
+		sessionData.ExpireTime != 0 &&
+		sessionData.ExpireTime < time.Now().Unix() {
+		c.SetSessionUsername("")
+		c.SetSessionData(nil)
+		return "", ""
+	}
+	scopeValue := c.GetSession("scope")
+	audValue := c.GetSession("aud")
+	var scope, aud string
+	var ok bool
+	if scope, ok = scopeValue.(string); !ok {
+		scope = ""
+	}
+	if aud, ok = audValue.(string); !ok {
+		aud = ""
+	}
+	return scope, aud
 }
 
 // SetSessionUsername ...

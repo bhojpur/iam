@@ -24,9 +24,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/bhojpur/iam/pkg/object"
 	"github.com/bhojpur/iam/pkg/utils"
+	websvr "github.com/bhojpur/web/pkg/engine"
 )
 
 const (
@@ -71,6 +73,18 @@ type Response struct {
 	Name   string      `json:"name"`
 	Data   interface{} `json:"data"`
 	Data2  interface{} `json:"data2"`
+}
+
+type Userinfo struct {
+	Sub         string `json:"sub"`
+	Iss         string `json:"iss"`
+	Aud         string `json:"aud"`
+	Name        string `json:"name,omitempty"`
+	DisplayName string `json:"preferred_username,omitempty"`
+	Email       string `json:"email,omitempty"`
+	Avatar      string `json:"picture,omitempty"`
+	Address     string `json:"address,omitempty"`
+	Phone       string `json:"phone,omitempty"`
 }
 
 type HumanCheck struct {
@@ -232,6 +246,50 @@ func (c *ApiController) GetAccount() {
 		Name:   user.Name,
 		Data:   user,
 		Data2:  organization,
+	}
+	c.Data["json"] = resp
+	c.ServeJSON()
+}
+
+// UserInfo
+// @Title UserInfo
+// @Tag Account API
+// @Description return user information according to OIDC standards
+// @Success 200 {object} controllers.Userinfo The Response object
+// @router /userinfo [get]
+func (c *ApiController) GetUserInfo() {
+	userId, ok := c.RequireSignedIn()
+	if !ok {
+		return
+	}
+	user := object.GetUser(userId)
+	if user == nil {
+		c.ResponseError(fmt.Sprintf("The user: %s doesn't exist", userId))
+		return
+	}
+	scope, aud := c.GetSessionOidc()
+	iss, err := websvr.AppConfig.String("origin")
+	if err != nil {
+		fmt.Errorf("user session origin", err)
+	}
+	resp := Userinfo{
+		Sub: user.Id,
+		Iss: iss,
+		Aud: aud,
+	}
+	if strings.Contains(scope, "profile") {
+		resp.Name = user.Name
+		resp.DisplayName = user.DisplayName
+		resp.Avatar = user.Avatar
+	}
+	if strings.Contains(scope, "email") {
+		resp.Email = user.Email
+	}
+	if strings.Contains(scope, "address") {
+		resp.Address = user.Location
+	}
+	if strings.Contains(scope, "phone") {
+		resp.Phone = user.Phone
 	}
 	c.Data["json"] = resp
 	c.ServeJSON()
