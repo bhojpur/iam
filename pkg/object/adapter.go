@@ -39,7 +39,7 @@ import (
 var adapter *Adapter
 
 func InitConfig() {
-	err := websvr.LoadAppConfig("ini", "../conf/app.conf")
+	err := websvr.LoadAppConfig("ini", "./pkg/conf/app.conf")
 	if err != nil {
 		panic(err)
 	}

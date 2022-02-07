@@ -34,7 +34,7 @@ func StaticFilter(ctx *ctxsvr.Context) {
 		return
 	}
 
-	path := "web/build"
+	path := "webui/build"
 	if urlPath == "/" {
 		path += "/index.html"
 	} else {
@@ -44,6 +44,6 @@ func StaticFilter(ctx *ctxsvr.Context) {
 	if utils.FileExist(path) {
 		http.ServeFile(ctx.ResponseWriter, ctx.Request, path)
 	} else {
-		http.ServeFile(ctx.ResponseWriter, ctx.Request, "web/build/index.html")
+		http.ServeFile(ctx.ResponseWriter, ctx.Request, "webui/build/index.html")
 	}
 }

@@ -73,7 +73,7 @@ const userTemplate = {
   "isGlobalAdmin": false,
   "isForbidden": false,
   "isDeleted": false,
-  "signupApplication": "app-casnode",
+  "signupApplication": "app-iamnode",
   "properties": {
     "bio": "",
     "checkinDate": "20200801",

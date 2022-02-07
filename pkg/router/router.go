@@ -51,7 +51,7 @@ func initAPI() {
 	websvr.Router("/api/get-app-login", &controllers.ApiController{}, "GET:GetApplicationLogin")
 	websvr.Router("/api/logout", &controllers.ApiController{}, "POST:Logout")
 	websvr.Router("/api/get-account", &controllers.ApiController{}, "GET:GetAccount")
-	websvr.Router("/api/userinfo", &controllers.ApiController{}, "GET:GetUserinfo")
+	websvr.Router("/api/userinfo", &controllers.ApiController{}, "GET:GetUserInfo")
 	websvr.Router("/api/unlink", &controllers.ApiController{}, "POST:Unlink")
 	websvr.Router("/api/get-saml-login", &controllers.ApiController{}, "GET:GetSamlLogin")
 	websvr.Router("/api/acs", &controllers.ApiController{}, "POST:HandleSamlLogin")

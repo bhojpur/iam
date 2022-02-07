@@ -53,7 +53,7 @@ func initBuiltInOrganization() {
 		DisplayName:   "Built-in Organization",
 		WebsiteUrl:    "https://bhojpur.net",
 		Favicon:       "https://static.bhojpur.net/favicon.ico",
-		PhonePrefix:   "86",
+		PhonePrefix:   "91",
 		DefaultAvatar: "https://static.bhojpur.net/image/logo.png",
 		PasswordType:  "plain",
 	}

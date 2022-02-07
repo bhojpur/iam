@@ -371,7 +371,7 @@ func (c *ApiController) Login() {
 		}
 	} else {
 		if c.GetSessionUsername() != "" {
-			// user already signed in to Casdoor, so let the user click the avatar button to do the quick sign-in
+			// user already signed in to Bhojpur IAM, so let the user click the avatar button to do the quick sign-in
 			application := object.GetApplication(fmt.Sprintf("admin/%s", form.Application))
 			user := c.getCurrentUser()
 			resp = c.HandleLoggedIn(application, user, &form)
