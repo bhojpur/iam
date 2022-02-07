@@ -23,7 +23,7 @@ package controllers
 import (
 	"github.com/bhojpur/iam/pkg/object"
 	"github.com/bhojpur/iam/pkg/utils"
-	pagination "github.com/bhojpur/web/pkg/utils/pagination"
+	pagination "github.com/bhojpur/web/pkg/pagination"
 )
 
 // GetRecords
@@ -35,12 +35,13 @@ import (
 // @Success 200 {array} object.Records The Response object
 // @router /get-records [get]
 func (c *ApiController) GetRecords() {
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	webform, _ := c.Input()
+	limit := webform.Get("pageSize")
+	page := webform.Get("p")
+	field := webform.Get("field")
+	value := webform.Get("value")
+	sortField := webform.Get("sortField")
+	sortOrder := webform.Get("sortOrder")
 	if limit == "" || page == "" {
 		c.Data["json"] = object.GetRecords()
 		c.ServeJSON()

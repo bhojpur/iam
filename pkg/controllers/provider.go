@@ -25,7 +25,7 @@ import (
 
 	"github.com/bhojpur/iam/pkg/object"
 	"github.com/bhojpur/iam/pkg/utils"
-	pagination "github.com/bhojpur/web/pkg/utils/pagination"
+	pagination "github.com/bhojpur/web/pkg/pagination"
 )
 
 // GetProviders
@@ -36,13 +36,14 @@ import (
 // @Success 200 {array} object.Provider The Response object
 // @router /get-providers [get]
 func (c *ApiController) GetProviders() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	webform, _ := c.Input()
+	owner := webform.Get("owner")
+	limit := webform.Get("pageSize")
+	page := webform.Get("p")
+	field := webform.Get("field")
+	value := webform.Get("value")
+	sortField := webform.Get("sortField")
+	sortOrder := webform.Get("sortOrder")
 	if limit == "" || page == "" {
 		c.Data["json"] = object.GetMaskedProviders(object.GetProviders(owner))
 		c.ServeJSON()
@@ -61,7 +62,8 @@ func (c *ApiController) GetProviders() {
 // @Success 200 {object} object.Provider The Response object
 // @router /get-provider [get]
 func (c *ApiController) GetProvider() {
-	id := c.Input().Get("id")
+	webform, _ := c.Input()
+	id := webform.Get("id")
 
 	c.Data["json"] = object.GetMaskedProvider(object.GetProvider(id))
 	c.ServeJSON()
@@ -75,7 +77,8 @@ func (c *ApiController) GetProvider() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-provider [post]
 func (c *ApiController) UpdateProvider() {
-	id := c.Input().Get("id")
+	webform, _ := c.Input()
+	id := webform.Get("id")
 
 	var provider object.Provider
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &provider)

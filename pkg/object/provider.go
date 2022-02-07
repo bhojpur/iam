@@ -23,8 +23,8 @@ package object
 import (
 	"fmt"
 
+	"github.com/bhojpur/dbm/pkg/core"
 	"github.com/bhojpur/iam/pkg/utils"
-	"github.com/bhopur/dbm/pkg/core"
 )
 
 type Provider struct {
@@ -35,6 +35,7 @@ type Provider struct {
 	DisplayName   string `orm:"varchar(100)" json:"displayName"`
 	Category      string `orm:"varchar(100)" json:"category"`
 	Type          string `orm:"varchar(100)" json:"type"`
+	SubType       string `orm:"varchar(100)" json:"subType"`
 	Method        string `orm:"varchar(100)" json:"method"`
 	ClientId      string `orm:"varchar(100)" json:"clientId"`
 	ClientSecret  string `orm:"varchar(100)" json:"clientSecret"`
@@ -87,10 +88,7 @@ func GetMaskedProviders(providers []*Provider) []*Provider {
 }
 
 func GetProviderCount(owner, field, value string) int {
-	session := adapter.Engine.Where("owner=?", owner)
-	if field != "" && value != "" {
-		session = session.And(fmt.Sprintf("%s like ?", utils.SnakeString(field)), fmt.Sprintf("%%%s%%", value))
-	}
+	session := GetSession(owner, -1, -1, field, value, "", "")
 	count, err := session.Count(&Provider{})
 	if err != nil {
 		panic(err)

@@ -49,8 +49,10 @@ type OidcDiscovery struct {
 var oidcDiscovery OidcDiscovery
 
 func init() {
-	origin := websvr.AppConfig.String("origin")
-
+	origin, err := websvr.AppConfig.String("origin")
+	if err != nil {
+		fmt.Errorf("origin", err)
+	}
 	// Examples:
 	// https://login.okta.com/.well-known/openid-configuration
 	// https://auth0.auth0.com/.well-known/openid-configuration

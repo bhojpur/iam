@@ -31,7 +31,10 @@ func TestGetUsers(t *testing.T) {
 	syncers := GetSyncers("admin")
 	syncer := syncers[0]
 	syncer.initAdapter()
-	users := syncer.getOriginalUsers()
+	users, err := syncer.getOriginalUsers()
+	if err != nil {
+		fmt.Errorf("getOriginalUsers", err)
+	}
 	for _, user := range users {
 		fmt.Printf("%v\n", user)
 	}

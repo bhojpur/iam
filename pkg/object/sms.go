@@ -20,14 +20,18 @@ package object
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import (
+	smssvr "github.com/bhojpur/sms/pkg/sender"
+)
+
 func SendSms(provider *Provider, content string, phoneNumbers ...string) error {
-	client, err := go_sms_sender.NewSmsClient(provider.Type, provider.ClientId, provider.ClientSecret, provider.SignName, provider.TemplateCode, provider.AppId)
+	client, err := smssvr.NewSmsClient(provider.Type, provider.ClientId, provider.ClientSecret, provider.SignName, provider.TemplateCode, provider.AppId)
 	if err != nil {
 		return err
 	}
 
 	params := map[string]string{}
-	if provider.Type == go_sms_sender.TencentCloud {
+	if provider.Type == smssvr.TencentCloud {
 		params["0"] = content
 	} else {
 		params["code"] = content

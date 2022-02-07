@@ -21,6 +21,7 @@ package conf
 // THE SOFTWARE.
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
@@ -28,7 +29,10 @@ import (
 )
 
 func GetBhojpurConfDataSourceName() string {
-	dataSourceName := websvr.AppConfig.String("dataSourceName")
+	dataSourceName, err := websvr.AppConfig.String("dataSourceName")
+	if err != nil {
+		fmt.Errorf("reading dataSourceName", err)
+	}
 
 	runningInDocker := os.Getenv("RUNNING_IN_DOCKER")
 	if runningInDocker == "true" {

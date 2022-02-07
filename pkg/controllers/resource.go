@@ -30,21 +30,22 @@ import (
 
 	"github.com/bhojpur/iam/pkg/object"
 	"github.com/bhojpur/iam/pkg/utils"
-	pagination "github.com/bhojpur/web/pkg/utils/pagination"
+	pagination "github.com/bhojpur/web/pkg/pagination"
 )
 
 // @router /get-resources [get]
 // @Tag Resource API
 // @Title GetResources
 func (c *ApiController) GetResources() {
-	owner := c.Input().Get("owner")
-	user := c.Input().Get("user")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	webform, _ := c.Input()
+	owner := webform.Get("owner")
+	user := webform.Get("user")
+	limit := webform.Get("pageSize")
+	page := webform.Get("p")
+	field := webform.Get("field")
+	value := webform.Get("value")
+	sortField := webform.Get("sortField")
+	sortOrder := webform.Get("sortOrder")
 	if limit == "" || page == "" {
 		c.Data["json"] = object.GetResources(owner, user)
 		c.ServeJSON()
@@ -60,7 +61,8 @@ func (c *ApiController) GetResources() {
 // @Title GetResource
 // @router /get-resource [get]
 func (c *ApiController) GetResource() {
-	id := c.Input().Get("id")
+	webform, _ := c.Input()
+	id := webform.Get("id")
 
 	c.Data["json"] = object.GetResource(id)
 	c.ServeJSON()
@@ -70,7 +72,8 @@ func (c *ApiController) GetResource() {
 // @Title UpdateResource
 // @router /update-resource [post]
 func (c *ApiController) UpdateResource() {
-	id := c.Input().Get("id")
+	webform, _ := c.Input()
+	id := webform.Get("id")
 
 	var resource object.Resource
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &resource)
@@ -125,14 +128,15 @@ func (c *ApiController) DeleteResource() {
 // @Title UploadResource
 // @router /upload-resource [post]
 func (c *ApiController) UploadResource() {
-	owner := c.Input().Get("owner")
-	username := c.Input().Get("user")
-	application := c.Input().Get("application")
-	tag := c.Input().Get("tag")
-	parent := c.Input().Get("parent")
-	fullFilePath := c.Input().Get("fullFilePath")
-	createdTime := c.Input().Get("createdTime")
-	description := c.Input().Get("description")
+	webform, _ := c.Input()
+	owner := webform.Get("owner")
+	username := webform.Get("user")
+	application := webform.Get("application")
+	tag := webform.Get("tag")
+	parent := webform.Get("parent")
+	fullFilePath := webform.Get("fullFilePath")
+	createdTime := webform.Get("createdTime")
+	description := webform.Get("description")
 
 	file, header, err := c.GetFile("file")
 	if err != nil {

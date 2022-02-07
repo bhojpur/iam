@@ -32,7 +32,10 @@ import (
 var defaultStorageProvider *Provider = nil
 
 func InitDefaultStorageProvider() {
-	defaultStorageProviderStr := websvr.AppConfig.String("defaultStorageProvider")
+	defaultStorageProviderStr, err := websvr.AppConfig.String("defaultStorageProvider")
+	if err != nil {
+		fmt.Errorf("defaultStorageProvider", err)
+	}
 	if defaultStorageProviderStr != "" {
 		defaultStorageProvider = getProvider("admin", defaultStorageProviderStr)
 	}

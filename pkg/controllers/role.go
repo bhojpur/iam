@@ -25,7 +25,7 @@ import (
 
 	"github.com/bhojpur/iam/pkg/object"
 	"github.com/bhojpur/iam/pkg/utils"
-	pagination "github.com/bhojpur/web/pkg/utils/pagination"
+	pagination "github.com/bhojpur/web/pkg/pagination"
 )
 
 // GetRoles
@@ -36,13 +36,14 @@ import (
 // @Success 200 {array} object.Role The Response object
 // @router /get-roles [get]
 func (c *ApiController) GetRoles() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	webform, _ := c.Input()
+	owner := webform.Get("owner")
+	limit := webform.Get("pageSize")
+	page := webform.Get("p")
+	field := webform.Get("field")
+	value := webform.Get("value")
+	sortField := webform.Get("sortField")
+	sortOrder := webform.Get("sortOrder")
 	if limit == "" || page == "" {
 		c.Data["json"] = object.GetRoles(owner)
 		c.ServeJSON()
@@ -61,7 +62,8 @@ func (c *ApiController) GetRoles() {
 // @Success 200 {object} object.Role The Response object
 // @router /get-role [get]
 func (c *ApiController) GetRole() {
-	id := c.Input().Get("id")
+	webform, _ := c.Input()
+	id := webform.Get("id")
 
 	c.Data["json"] = object.GetRole(id)
 	c.ServeJSON()
@@ -75,7 +77,8 @@ func (c *ApiController) GetRole() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-role [post]
 func (c *ApiController) UpdateRole() {
-	id := c.Input().Get("id")
+	webform, _ := c.Input()
+	id := webform.Get("id")
 
 	var role object.Role
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &role)

@@ -76,7 +76,8 @@ func getUsernameByClientIdSecret(ctx *ctxsvr.Context) string {
 }
 
 func getSessionUser(ctx *ctxsvr.Context) string {
-	user := ctx.Input.CruSession.Get("username")
+	sessvr := ctx.Input.CruSession
+	user := sessvr.Get(nil, "username")
 	if user == nil {
 		return ""
 	}
@@ -85,21 +86,36 @@ func getSessionUser(ctx *ctxsvr.Context) string {
 }
 
 func setSessionUser(ctx *ctxsvr.Context, user string) {
-	err := ctx.Input.CruSession.Set("username", user)
+	sessvr := ctx.Input.CruSession
+	err := sessvr.Set(nil, "username", user)
 	if err != nil {
 		panic(err)
 	}
 
-	ctx.Input.CruSession.SessionRelease(ctx.ResponseWriter)
+	sessvr.SessionRelease(nil, ctx.ResponseWriter)
 }
 
 func setSessionExpire(ctx *ctxsvr.Context, ExpireTime int64) {
 	SessionData := struct{ ExpireTime int64 }{ExpireTime: ExpireTime}
-	err := ctx.Input.CruSession.Set("SessionData", utils.StructToJson(SessionData))
+	sessvr := ctx.Input.CruSession
+	err := sessvr.Set(nil, "SessionData", utils.StructToJson(SessionData))
 	if err != nil {
 		panic(err)
 	}
-	ctx.Input.CruSession.SessionRelease(ctx.ResponseWriter)
+	sessvr.SessionRelease(nil, ctx.ResponseWriter)
+}
+
+func setSessionOidc(ctx *ctxsvr.Context, scope string, aud string) {
+	sessvr := ctx.Input.CruSession
+	err := sessvr.Set(nil, "scope", scope)
+	if err != nil {
+		panic(err)
+	}
+	err = sessvr.Set(nil, "aud", aud)
+	if err != nil {
+		panic(err)
+	}
+	sessvr.SessionRelease(nil, ctx.ResponseWriter)
 }
 
 func parseBearerToken(ctx *ctxsvr.Context) string {

@@ -51,6 +51,7 @@ func initAPI() {
 	websvr.Router("/api/get-app-login", &controllers.ApiController{}, "GET:GetApplicationLogin")
 	websvr.Router("/api/logout", &controllers.ApiController{}, "POST:Logout")
 	websvr.Router("/api/get-account", &controllers.ApiController{}, "GET:GetAccount")
+	websvr.Router("/api/userinfo", &controllers.ApiController{}, "GET:GetUserinfo")
 	websvr.Router("/api/unlink", &controllers.ApiController{}, "POST:Unlink")
 	websvr.Router("/api/get-saml-login", &controllers.ApiController{}, "GET:GetSamlLogin")
 	websvr.Router("/api/acs", &controllers.ApiController{}, "POST:HandleSamlLogin")
@@ -148,6 +149,12 @@ func initAPI() {
 	websvr.Router("/api/update-cert", &controllers.ApiController{}, "POST:UpdateCert")
 	websvr.Router("/api/add-cert", &controllers.ApiController{}, "POST:AddCert")
 	websvr.Router("/api/delete-cert", &controllers.ApiController{}, "POST:DeleteCert")
+
+	websvr.Router("/api/get-payments", &controllers.ApiController{}, "GET:GetPayments")
+	websvr.Router("/api/get-payment", &controllers.ApiController{}, "GET:GetPayment")
+	websvr.Router("/api/update-payment", &controllers.ApiController{}, "POST:UpdatePayment")
+	websvr.Router("/api/add-payment", &controllers.ApiController{}, "POST:AddPayment")
+	websvr.Router("/api/delete-payment", &controllers.ApiController{}, "POST:DeletePayment")
 
 	websvr.Router("/api/send-email", &controllers.ApiController{}, "POST:SendEmail")
 	websvr.Router("/api/send-sms", &controllers.ApiController{}, "POST:SendSms")

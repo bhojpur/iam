@@ -29,13 +29,12 @@ import (
 	"github.com/bhojpur/iam/pkg/router"
 	_ "github.com/bhojpur/iam/pkg/router"
 	logsvr "github.com/bhojpur/logger/pkg/engine"
+	_ "github.com/bhojpur/session/pkg/provider/redis"
 	websvr "github.com/bhojpur/web/pkg/engine"
-	"github.com/bhojpur/web/pkg/plugins/cors"
-	_ "github.com/bhojpur/web/pkg/session/redis"
 )
 
 func main() {
-	createDatabase := flag.Bool("createDatabase", false, "true if you need Bhojpur IAM to create database")
+	createDatabase := flag.Bool("createDatabase", false, "true if you need casdoor to create database")
 	flag.Parse()
 	object.InitAdapter(*createDatabase)
 	object.InitDb()
@@ -45,14 +44,6 @@ func main() {
 	authz.InitAuthz()
 
 	go object.RunSyncUsersJob()
-
-	websvr.InsertFilter("*", websvr.BeforeRouter, cors.Allow(&cors.Options{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"GET", "PUT", "PATCH"},
-		AllowHeaders:     []string{"Origin"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-	}))
 
 	//websvr.DelStaticPath("/static")
 	websvr.SetStaticPath("/static", "web/build/static")
@@ -64,22 +55,23 @@ func main() {
 	websvr.InsertFilter("*", websvr.BeforeRouter, router.AuthzFilter)
 	websvr.InsertFilter("*", websvr.BeforeRouter, router.RecordMessage)
 
-	websvr.BConfig.WebConfig.Session.SessionName = "bhojpur_iam_session_id"
-	if websvr.AppConfig.String("redisEndpoint") == "" {
+	websvr.BConfig.WebConfig.Session.SessionName = "bhojpur_session_id"
+	redisEndpoint, err := websvr.AppConfig.String("redisEndpoint")
+	if redisEndpoint == "" {
 		websvr.BConfig.WebConfig.Session.SessionProvider = "file"
 		websvr.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"
 	} else {
 		websvr.BConfig.WebConfig.Session.SessionProvider = "redis"
-		websvr.BConfig.WebConfig.Session.SessionProviderConfig = websvr.AppConfig.String("redisEndpoint")
+		websvr.BConfig.WebConfig.Session.SessionProviderConfig = redisEndpoint
 	}
 	websvr.BConfig.WebConfig.Session.SessionCookieLifeTime = 3600 * 24 * 30
 	//websvr.BConfig.WebConfig.Session.SessionCookieSameSite = http.SameSiteNoneMode
 
-	err := logsvr.SetLogger("file", `{"filename":"logs/bhojpur_iam.log","maxdays":99999,"perm":"0770"}`)
+	err = logsvr.SetLogger("file", `{"filename":"logs/bhojpur_iam.log","maxdays":99999,"perm":"0770"}`)
 	if err != nil {
 		panic(err)
 	}
-	//logs.SetLevel(logs.LevelInformational)
+	//logsvr.SetLevel(logs.LevelInformational)
 	logsvr.SetLogFuncCall(false)
 
 	websvr.Run()

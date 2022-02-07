@@ -27,7 +27,7 @@ import (
 	"strings"
 	"time"
 
-	appsvr "github.com/bhojpur/web/pkg/client"
+	appsvr "github.com/bhojpur/web/pkg/engine"
 	"golang.org/x/net/proxy"
 )
 
@@ -60,7 +60,7 @@ func isAddressOpen(address string) bool {
 }
 
 func getProxyHttpClient() *http.Client {
-	httpProxy := appsvr.AppConfig.String("httpProxy")
+	httpProxy, err := appsvr.AppConfig.String("httpProxy")
 	if httpProxy == "" {
 		return &http.Client{}
 	}

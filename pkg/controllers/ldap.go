@@ -110,7 +110,8 @@ func (c *ApiController) GetLdapUser() {
 // @Title GetLdaps
 // @router /get-ldaps [post]
 func (c *ApiController) GetLdaps() {
-	owner := c.Input().Get("owner")
+	webform, _ := c.Input()
+	owner := webform.Get("owner")
 
 	c.Data["json"] = Response{Status: "ok", Data: object.GetLdaps(owner)}
 	c.ServeJSON()
@@ -120,7 +121,8 @@ func (c *ApiController) GetLdaps() {
 // @Title GetLdap
 // @router /get-ldap [post]
 func (c *ApiController) GetLdap() {
-	id := c.Input().Get("id")
+	webform, _ := c.Input()
+	id := webform.Get("id")
 
 	if utils.IsStrsEmpty(id) {
 		c.ResponseError("Missing parameter")
@@ -208,8 +210,9 @@ func (c *ApiController) DeleteLdap() {
 // @Title SyncLdapUsers
 // @router /sync-ldap-users [post]
 func (c *ApiController) SyncLdapUsers() {
-	owner := c.Input().Get("owner")
-	ldapId := c.Input().Get("ldapId")
+	webform, _ := c.Input()
+	owner := webform.Get("owner")
+	ldapId := webform.Get("ldapId")
 	var users []object.LdapRespUser
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &users)
 	if err != nil {
@@ -230,7 +233,8 @@ func (c *ApiController) SyncLdapUsers() {
 // @Title CheckLdapUserExist
 // @router /check-ldap-users-exist [post]
 func (c *ApiController) CheckLdapUsersExist() {
-	owner := c.Input().Get("owner")
+	webform, _ := c.Input()
+	owner := webform.Get("owner")
 	var uuids []string
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &uuids)
 	if err != nil {

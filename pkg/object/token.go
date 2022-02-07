@@ -25,9 +25,10 @@ import (
 	"encoding/base64"
 	"fmt"
 	"strings"
+	"time"
 
+	"github.com/bhojpur/dbm/pkg/core"
 	"github.com/bhojpur/iam/pkg/utils"
-	"github.com/bhopur/dbm/pkg/core"
 )
 
 type Code struct {
@@ -51,6 +52,8 @@ type Token struct {
 	Scope         string `orm:"varchar(100)" json:"scope"`
 	TokenType     string `orm:"varchar(100)" json:"tokenType"`
 	CodeChallenge string `orm:"varchar(100)" json:"codeChallenge"`
+	CodeIsUsed    bool   `json:"codeIsUsed"`
+	CodeExpireIn  int64  `json:"codeExpireIn"`
 }
 
 type TokenWrapper struct {
@@ -63,10 +66,7 @@ type TokenWrapper struct {
 }
 
 func GetTokenCount(owner, field, value string) int {
-	session := adapter.Engine.Where("owner=?", owner)
-	if field != "" && value != "" {
-		session = session.And(fmt.Sprintf("%s like ?", utils.SnakeString(field)), fmt.Sprintf("%%%s%%", value))
-	}
+	session := GetSession(owner, -1, -1, field, value, "", "")
 	count, err := session.Count(&Token{})
 	if err != nil {
 		panic(err)
@@ -115,8 +115,8 @@ func getToken(owner string, name string) *Token {
 }
 
 func getTokenByCode(code string) *Token {
-	token := Token{}
-	existed, err := adapter.Engine.Where("code=?", code).Get(&token)
+	token := Token{Code: code}
+	existed, err := adapter.Engine.Get(&token)
 	if err != nil {
 		panic(err)
 	}
@@ -126,6 +126,15 @@ func getTokenByCode(code string) *Token {
 	}
 
 	return nil
+}
+
+func updateUsedByCode(token *Token) bool {
+	affected, err := adapter.Engine.Where("code=?", token.Code).Cols("code_is_used").Update(token)
+	if err != nil {
+		panic(err)
+	}
+
+	return affected != 0
 }
 
 func GetToken(id string) *Token {
@@ -163,6 +172,16 @@ func DeleteToken(token *Token) bool {
 	}
 
 	return affected != 0
+}
+
+func GetTokenByAccessToken(accessToken string) *Token {
+	//Check if the accessToken is in the database
+	token := Token{AccessToken: accessToken}
+	existed, err := adapter.Engine.Get(&token)
+	if err != nil || !existed {
+		return nil
+	}
+	return &token
 }
 
 func CheckOAuthLogin(clientId string, responseType string, redirectUri string, scope string, state string) (string, *Application) {
@@ -214,7 +233,7 @@ func GetOAuthCode(userId string, clientId string, responseType string, redirectU
 		}
 	}
 
-	accessToken, refreshToken, err := generateJwtToken(application, user, nonce)
+	accessToken, refreshToken, err := generateJwtToken(application, user, nonce, scope)
 	if err != nil {
 		panic(err)
 	}
@@ -237,6 +256,8 @@ func GetOAuthCode(userId string, clientId string, responseType string, redirectU
 		Scope:         scope,
 		TokenType:     "Bearer",
 		CodeChallenge: challenge,
+		CodeIsUsed:    false,
+		CodeExpireIn:  time.Now().Add(time.Minute * 5).Unix(),
 	}
 	AddToken(token)
 
@@ -310,7 +331,29 @@ func GetOAuthToken(grantType string, clientId string, clientSecret string, code 
 			Scope:       "",
 		}
 	}
+	if token.CodeIsUsed {
+		//Resist replay attacks, if the code is reused, the token generated with this code will be deleted
+		DeleteToken(token)
+		return &TokenWrapper{
+			AccessToken: "error: code has been used.",
+			TokenType:   "",
+			ExpiresIn:   0,
+			Scope:       "",
+		}
+	}
+	if time.Now().Unix() > token.CodeExpireIn {
+		//can only use the code to generate a token within five minutes
+		DeleteToken(token)
+		return &TokenWrapper{
+			AccessToken: "error: code has expired",
+			TokenType:   "",
+			ExpiresIn:   0,
+			Scope:       "",
+		}
+	}
 
+	token.CodeIsUsed = true
+	updateUsedByCode(token)
 	tokenWrapper := &TokenWrapper{
 		AccessToken:  token.AccessToken,
 		IdToken:      token.AccessToken,
@@ -382,7 +425,7 @@ func RefreshToken(grantType string, refreshToken string, scope string, clientId 
 			Scope:       "",
 		}
 	}
-	newAccessToken, newRefreshToken, err := generateJwtToken(application, user, "")
+	newAccessToken, newRefreshToken, err := generateJwtToken(application, user, "", scope)
 	if err != nil {
 		panic(err)
 	}

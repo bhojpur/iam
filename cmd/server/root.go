@@ -32,8 +32,8 @@ var verbose bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "iam",
-	Short: "Bhojpur IAM is an identity & access management system powered by Kubernetes",
+	Use:   "iamsvr",
+	Short: "Bhojpur IAMengine is an identity & access management system for distributed enterprise",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		if verbose {
 			log.SetLevel(log.DebugLevel)

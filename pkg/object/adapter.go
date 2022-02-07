@@ -24,8 +24,8 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/bhopur/dbm/pkg/core"
-	"github.com/bhopur/dbm/pkg/orm"
+	"github.com/bhojpur/dbm/pkg/core"
+	"github.com/bhojpur/dbm/pkg/orm"
 
 	"github.com/bhojpur/iam/pkg/conf"
 	"github.com/bhojpur/iam/pkg/utils"
@@ -48,8 +48,15 @@ func InitConfig() {
 }
 
 func InitAdapter(createDatabase bool) {
-
-	adapter = NewAdapter(websvr.AppConfig.String("driverName"), conf.GetBhojpurConfDataSourceName(), websvr.AppConfig.String("dbName"))
+	driverName, err := websvr.AppConfig.String("driverName")
+	if err != nil {
+		fmt.Errorf("driverName", err)
+	}
+	dbName, err := websvr.AppConfig.String("dbName")
+	if err != nil {
+		fmt.Errorf("dbName", err)
+	}
+	adapter = NewAdapter(driverName, conf.GetBhojpurConfDataSourceName(), dbName)
 	if createDatabase {
 		adapter.CreateDatabase()
 	}
@@ -122,11 +129,14 @@ func (a *Adapter) createTable() {
 	showSql, _ := websvr.AppConfig.Bool("showSql")
 	a.Engine.ShowSQL(showSql)
 
-	tableNamePrefix := websvr.AppConfig.String("tableNamePrefix")
+	tableNamePrefix, err := websvr.AppConfig.String("tableNamePrefix")
+	if err != nil {
+		fmt.Errorf("tableNamePrefix", err)
+	}
 	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, tableNamePrefix)
 	a.Engine.SetTableMapper(tbMapper)
 
-	err := a.Engine.Sync2(new(Organization))
+	err = a.Engine.Sync2(new(Organization))
 	if err != nil {
 		panic(err)
 	}

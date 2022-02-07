@@ -34,8 +34,10 @@ var Enforcer *plcsvr.Enforcer
 func InitAuthz() {
 	var err error
 
-	tableNamePrefix := websvr.AppConfig.String("tableNamePrefix")
-	a, err := ormadapter.NewAdapterWithTableName(websvr.AppConfig.String("driverName"), conf.GetBhojpurConfDataSourceName()+websvr.AppConfig.String("dbName"), "iam_rule", tableNamePrefix, true)
+	driverName, err := websvr.AppConfig.String("driverName")
+	tableNamePrefix, err := websvr.AppConfig.String("tableNamePrefix")
+	dbName, err := websvr.AppConfig.String("dbName")
+	a, err := ormadapter.NewAdapterWithTableName(driverName, conf.GetBhojpurConfDataSourceName()+dbName, "iam_rule", tableNamePrefix, true)
 	if err != nil {
 		panic(err)
 	}

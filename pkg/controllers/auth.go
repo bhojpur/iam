@@ -52,16 +52,17 @@ func (c *ApiController) HandleLoggedIn(application *object.Application, user *ob
 		utils.LogInfo(c.Ctx, "API: [%s] signed in", userId)
 		resp = &Response{Status: "ok", Msg: "", Data: userId}
 	} else if form.Type == ResponseTypeCode {
-		clientId := c.Input().Get("clientId")
-		responseType := c.Input().Get("responseType")
-		redirectUri := c.Input().Get("redirectUri")
-		scope := c.Input().Get("scope")
-		state := c.Input().Get("state")
-		nonce := c.Input().Get("nonce")
-		challengeMethod := c.Input().Get("code_challenge_method")
-		codeChallenge := c.Input().Get("code_challenge")
+		webform, _ := c.Input()
+		clientId := webform.Get("clientId")
+		responseType := webform.Get("responseType")
+		redirectUri := webform.Get("redirectUri")
+		scope := webform.Get("scope")
+		state := webform.Get("state")
+		nonce := webform.Get("nonce")
+		challengeMethod := webform.Get("code_challenge_method")
+		codeChallenge := webform.Get("code_challenge")
 
-		if challengeMethod != "S256" && challengeMethod != "null" {
+		if challengeMethod != "S256" && challengeMethod != "null" && challengeMethod != "" {
 			c.ResponseError("Challenge method should be S256")
 			return
 		}
@@ -100,11 +101,12 @@ func (c *ApiController) HandleLoggedIn(application *object.Application, user *ob
 // @Success 200 {object} controllers.api_controller.Response The Response object
 // @router /update-application [get]
 func (c *ApiController) GetApplicationLogin() {
-	clientId := c.Input().Get("clientId")
-	responseType := c.Input().Get("responseType")
-	redirectUri := c.Input().Get("redirectUri")
-	scope := c.Input().Get("scope")
-	state := c.Input().Get("state")
+	webform, _ := c.Input()
+	clientId := webform.Get("clientId")
+	responseType := webform.Get("responseType")
+	redirectUri := webform.Get("redirectUri")
+	scope := webform.Get("scope")
+	state := webform.Get("state")
 
 	msg, application := object.CheckOAuthLogin(clientId, responseType, redirectUri, scope, state)
 	if msg != "" {
@@ -227,7 +229,7 @@ func (c *ApiController) Login() {
 				clientSecret = provider.ClientSecret2
 			}
 
-			idProvider := idp.GetIdProvider(provider.Type, clientId, clientSecret, form.RedirectUri)
+			idProvider := idp.GetIdProvider(provider.Type, provider.SubType, clientId, clientSecret, provider.AppId, form.RedirectUri)
 			if idProvider == nil {
 				c.ResponseError(fmt.Sprintf("The provider type: %s is not supported", provider.Type))
 				return
@@ -235,8 +237,9 @@ func (c *ApiController) Login() {
 
 			setHttpClient(idProvider, provider.Type)
 
-			if form.State != websvr.AppConfig.String("authState") && form.State != application.Name {
-				c.ResponseError(fmt.Sprintf("state expected: \"%s\", but got: \"%s\"", websvr.AppConfig.String("authState"), form.State))
+			authState, err := websvr.AppConfig.String("authState")
+			if form.State != authState && form.State != application.Name {
+				c.ResponseError(fmt.Sprintf("state expected: \"%s\", but got: \"%s\"", authState, form.State))
 				return
 			}
 
@@ -368,7 +371,7 @@ func (c *ApiController) Login() {
 		}
 	} else {
 		if c.GetSessionUsername() != "" {
-			// user already signed in to Bhojpur IAM, so let the user click the avatar button to do the quick sign-in
+			// user already signed in to Casdoor, so let the user click the avatar button to do the quick sign-in
 			application := object.GetApplication(fmt.Sprintf("admin/%s", form.Application))
 			user := c.getCurrentUser()
 			resp = c.HandleLoggedIn(application, user, &form)
@@ -383,8 +386,9 @@ func (c *ApiController) Login() {
 }
 
 func (c *ApiController) GetSamlLogin() {
-	providerId := c.Input().Get("id")
-	relayState := c.Input().Get("relayState")
+	webform, _ := c.Input()
+	providerId := webform.Get("id")
+	relayState := webform.Get("relayState")
 	authURL, method, err := object.GenerateSamlLoginUrl(providerId, relayState)
 	if err != nil {
 		c.ResponseError(err.Error())
@@ -393,8 +397,9 @@ func (c *ApiController) GetSamlLogin() {
 }
 
 func (c *ApiController) HandleSamlLogin() {
-	relayState := c.Input().Get("RelayState")
-	samlResponse := c.Input().Get("SAMLResponse")
+	webform, _ := c.Input()
+	relayState := webform.Get("RelayState")
+	samlResponse := webform.Get("SAMLResponse")
 	decode, err := base64.StdEncoding.DecodeString(relayState)
 	if err != nil {
 		c.ResponseError(err.Error())

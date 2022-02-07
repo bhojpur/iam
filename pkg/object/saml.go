@@ -79,7 +79,7 @@ func buildSp(provider *Provider, samlResponse string) (*saml2.SAMLServiceProvide
 	certStore := dsig.MemoryX509CertificateStore{
 		Roots: []*x509.Certificate{},
 	}
-	origin := websvr.AppConfig.String("origin")
+	origin, err := websvr.AppConfig.String("origin")
 	certEncodedData := ""
 	if samlResponse != "" {
 		certEncodedData = parseSamlResponse(samlResponse, provider.Type)

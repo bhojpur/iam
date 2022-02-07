@@ -68,7 +68,8 @@ func (c *ApiController) RequireSignedIn() (string, bool) {
 }
 
 func getInitScore() int {
-	score, err := strconv.Atoi(websvr.AppConfig.String("initScore"))
+	initScore, err := websvr.AppConfig.String("initScore")
+	score, err := strconv.Atoi(initScore)
 	if err != nil {
 		panic(err)
 	}
@@ -77,7 +78,8 @@ func getInitScore() int {
 }
 
 func (c *ApiController) GetProviderFromContext(category string) (*object.Provider, *object.User, bool) {
-	providerName := c.Input().Get("provider")
+	webform, _ := c.Input()
+	providerName := webform.Get("provider")
 	if providerName != "" {
 		provider := object.GetProvider(utils.GetId(providerName))
 		if provider == nil {

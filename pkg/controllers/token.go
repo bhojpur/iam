@@ -25,7 +25,7 @@ import (
 
 	"github.com/bhojpur/iam/pkg/object"
 	"github.com/bhojpur/iam/pkg/utils"
-	pagination "github.com/bhojpur/web/pkg/utils/pagination"
+	pagination "github.com/bhojpur/web/pkg/pagination"
 )
 
 // GetTokens
@@ -38,13 +38,14 @@ import (
 // @Success 200 {array} object.Token The Response object
 // @router /get-tokens [get]
 func (c *ApiController) GetTokens() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	webform, _ := c.Input()
+	owner := webform.Get("owner")
+	limit := webform.Get("pageSize")
+	page := webform.Get("p")
+	field := webform.Get("field")
+	value := webform.Get("value")
+	sortField := webform.Get("sortField")
+	sortOrder := webform.Get("sortOrder")
 	if limit == "" || page == "" {
 		c.Data["json"] = object.GetTokens(owner)
 		c.ServeJSON()
@@ -64,7 +65,8 @@ func (c *ApiController) GetTokens() {
 // @Success 200 {object} object.Token The Response object
 // @router /get-token [get]
 func (c *ApiController) GetToken() {
-	id := c.Input().Get("id")
+	webform, _ := c.Input()
+	id := webform.Get("id")
 
 	c.Data["json"] = object.GetToken(id)
 	c.ServeJSON()
@@ -79,7 +81,8 @@ func (c *ApiController) GetToken() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-token [post]
 func (c *ApiController) UpdateToken() {
-	id := c.Input().Get("id")
+	webform, _ := c.Input()
+	id := webform.Get("id")
 
 	var token object.Token
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &token)
@@ -140,16 +143,17 @@ func (c *ApiController) DeleteToken() {
 // @Success 200 {object} object.TokenWrapper The Response object
 // @router /login/oauth/code [post]
 func (c *ApiController) GetOAuthCode() {
-	userId := c.Input().Get("user_id")
-	clientId := c.Input().Get("client_id")
-	responseType := c.Input().Get("response_type")
-	redirectUri := c.Input().Get("redirect_uri")
-	scope := c.Input().Get("scope")
-	state := c.Input().Get("state")
-	nonce := c.Input().Get("nonce")
+	webform, _ := c.Input()
+	userId := webform.Get("user_id")
+	clientId := webform.Get("client_id")
+	responseType := webform.Get("response_type")
+	redirectUri := webform.Get("redirect_uri")
+	scope := webform.Get("scope")
+	state := webform.Get("state")
+	nonce := webform.Get("nonce")
 
-	challengeMethod := c.Input().Get("code_challenge_method")
-	codeChallenge := c.Input().Get("code_challenge")
+	challengeMethod := webform.Get("code_challenge_method")
+	codeChallenge := webform.Get("code_challenge")
 
 	if challengeMethod != "S256" && challengeMethod != "null" {
 		c.ResponseError("Challenge method should be S256")
@@ -171,11 +175,12 @@ func (c *ApiController) GetOAuthCode() {
 // @Success 200 {object} object.TokenWrapper The Response object
 // @router /login/oauth/access_token [post]
 func (c *ApiController) GetOAuthToken() {
-	grantType := c.Input().Get("grant_type")
-	clientId := c.Input().Get("client_id")
-	clientSecret := c.Input().Get("client_secret")
-	code := c.Input().Get("code")
-	verifier := c.Input().Get("code_verifier")
+	webform, _ := c.Input()
+	grantType := webform.Get("grant_type")
+	clientId := webform.Get("client_id")
+	clientSecret := webform.Get("client_secret")
+	code := webform.Get("code")
+	verifier := webform.Get("code_verifier")
 
 	if clientId == "" && clientSecret == "" {
 		clientId, clientSecret, _ = c.Ctx.Request.BasicAuth()
@@ -196,11 +201,12 @@ func (c *ApiController) GetOAuthToken() {
 // @Success 200 {object} object.TokenWrapper The Response object
 // @router /login/oauth/refresh_token [post]
 func (c *ApiController) RefreshToken() {
-	grantType := c.Input().Get("grant_type")
-	refreshToken := c.Input().Get("refresh_token")
-	scope := c.Input().Get("scope")
-	clientId := c.Input().Get("client_id")
-	clientSecret := c.Input().Get("client_secret")
+	webform, _ := c.Input()
+	grantType := webform.Get("grant_type")
+	refreshToken := webform.Get("refresh_token")
+	scope := webform.Get("scope")
+	clientId := webform.Get("client_id")
+	clientSecret := webform.Get("client_secret")
 
 	c.Data["json"] = object.RefreshToken(grantType, refreshToken, scope, clientId, clientSecret)
 	c.ServeJSON()

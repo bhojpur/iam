@@ -27,7 +27,7 @@ import (
 
 	"github.com/bhojpur/iam/pkg/object"
 	"github.com/bhojpur/iam/pkg/utils"
-	pagination "github.com/bhojpur/web/pkg/utils/pagination"
+	pagination "github.com/bhojpur/web/pkg/pagination"
 )
 
 // GetGlobalUsers
@@ -37,12 +37,13 @@ import (
 // @Success 200 {array} object.User The Response object
 // @router /get-global-users [get]
 func (c *ApiController) GetGlobalUsers() {
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	webform, _ := c.Input()
+	limit := webform.Get("pageSize")
+	page := webform.Get("p")
+	field := webform.Get("field")
+	value := webform.Get("value")
+	sortField := webform.Get("sortField")
+	sortOrder := webform.Get("sortOrder")
 	if limit == "" || page == "" {
 		c.Data["json"] = object.GetMaskedUsers(object.GetGlobalUsers())
 		c.ServeJSON()
@@ -62,13 +63,14 @@ func (c *ApiController) GetGlobalUsers() {
 // @Success 200 {array} object.User The Response object
 // @router /get-users [get]
 func (c *ApiController) GetUsers() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	webform, _ := c.Input()
+	owner := webform.Get("owner")
+	limit := webform.Get("pageSize")
+	page := webform.Get("p")
+	field := webform.Get("field")
+	value := webform.Get("value")
+	sortField := webform.Get("sortField")
+	sortOrder := webform.Get("sortOrder")
 	if limit == "" || page == "" {
 		c.Data["json"] = object.GetMaskedUsers(object.GetUsers(owner))
 		c.ServeJSON()
@@ -88,9 +90,10 @@ func (c *ApiController) GetUsers() {
 // @Success 200 {object} object.User The Response object
 // @router /get-user [get]
 func (c *ApiController) GetUser() {
-	id := c.Input().Get("id")
-	owner := c.Input().Get("owner")
-	email := c.Input().Get("email")
+	webform, _ := c.Input()
+	id := webform.Get("id")
+	owner := webform.Get("owner")
+	email := webform.Get("email")
 
 	var user *object.User
 	if email == "" {
@@ -112,8 +115,9 @@ func (c *ApiController) GetUser() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-user [post]
 func (c *ApiController) UpdateUser() {
-	id := c.Input().Get("id")
-	columnsStr := c.Input().Get("columns")
+	webform, _ := c.Input()
+	id := webform.Get("id")
+	columnsStr := webform.Get("columns")
 
 	var user object.User
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &user)
@@ -315,9 +319,10 @@ func (c *ApiController) CheckUserPassword() {
 // @Success 200 {array} object.User The Response object
 // @router /get-sorted-users [get]
 func (c *ApiController) GetSortedUsers() {
-	owner := c.Input().Get("owner")
-	sorter := c.Input().Get("sorter")
-	limit := utils.ParseInt(c.Input().Get("limit"))
+	webform, _ := c.Input()
+	owner := webform.Get("owner")
+	sorter := webform.Get("sorter")
+	limit := utils.ParseInt(webform.Get("limit"))
 
 	c.Data["json"] = object.GetMaskedUsers(object.GetSortedUsers(owner, sorter, limit))
 	c.ServeJSON()
@@ -332,8 +337,9 @@ func (c *ApiController) GetSortedUsers() {
 // @Success 200 {int} int The count of filtered users for an organization
 // @router /get-user-count [get]
 func (c *ApiController) GetUserCount() {
-	owner := c.Input().Get("owner")
-	isOnline := c.Input().Get("isOnline")
+	webform, _ := c.Input()
+	owner := webform.Get("owner")
+	isOnline := webform.Get("isOnline")
 
 	count := 0
 	if isOnline == "" {

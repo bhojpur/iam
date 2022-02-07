@@ -25,7 +25,7 @@ import (
 
 	"github.com/bhojpur/iam/pkg/object"
 	"github.com/bhojpur/iam/pkg/utils"
-	pagination "github.com/bhojpur/web/pkg/utils/pagination"
+	pagination "github.com/bhojpur/web/pkg/pagination"
 )
 
 // GetApplications
@@ -37,14 +37,15 @@ import (
 // @router /get-applications [get]
 func (c *ApiController) GetApplications() {
 	userId := c.GetSessionUsername()
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
-	organization := c.Input().Get("organization")
+	webform, _ := c.Input()
+	owner := webform.Get("owner")
+	limit := webform.Get("pageSize")
+	page := webform.Get("p")
+	field := webform.Get("field")
+	value := webform.Get("value")
+	sortField := webform.Get("sortField")
+	sortOrder := webform.Get("sortOrder")
+	organization := webform.Get("organization")
 
 	if limit == "" || page == "" {
 		var applications []*object.Application
@@ -73,7 +74,8 @@ func (c *ApiController) GetApplications() {
 // @router /get-application [get]
 func (c *ApiController) GetApplication() {
 	userId := c.GetSessionUsername()
-	id := c.Input().Get("id")
+	webform, _ := c.Input()
+	id := webform.Get("id")
 
 	c.Data["json"] = object.GetMaskedApplication(object.GetApplication(id), userId)
 	c.ServeJSON()
@@ -88,7 +90,8 @@ func (c *ApiController) GetApplication() {
 // @router /get-user-application [get]
 func (c *ApiController) GetUserApplication() {
 	userId := c.GetSessionUsername()
-	id := c.Input().Get("id")
+	webform, _ := c.Input()
+	id := webform.Get("id")
 	user := object.GetUser(id)
 	if user == nil {
 		c.ResponseError("No such user.")
@@ -108,7 +111,8 @@ func (c *ApiController) GetUserApplication() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-application [post]
 func (c *ApiController) UpdateApplication() {
-	id := c.Input().Get("id")
+	webform, _ := c.Input()
+	id := webform.Get("id")
 
 	var application object.Application
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &application)

@@ -25,8 +25,8 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/bhojpur/dbm/pkg/core"
 	"github.com/bhojpur/iam/pkg/idp"
-	"github.com/bhopur/dbm/pkg/core"
 )
 
 func GetUserByField(organizationName string, field string, value string) *User {

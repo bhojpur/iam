@@ -74,7 +74,6 @@ type WeComProviderToken struct {
 }
 
 // GetToken use code get access_token (*operation of getting code ought to be done in front)
-// get more detail via: https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html
 func (idp *WeComIdProvider) GetToken(code string) (*oauth2.Token, error) {
 	pTokenParams := &struct {
 		CorpId         string `json:"corpid"`
@@ -159,7 +158,6 @@ type WeComUserInfo struct {
 }
 
 // GetUserInfo use WeComProviderToken gotten before return WeComUserInfo
-// get more detail via: https://work.weixin.qq.com/api/doc/90001/90143/91125
 func (idp *WeComIdProvider) GetUserInfo(token *oauth2.Token) (*UserInfo, error) {
 	accessToken := token.AccessToken
 	code := token.Extra("code").(string)
