@@ -62,7 +62,7 @@ var rootCmdOpts struct {
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "iamctl",
-	Short: "Bhojpur IAMctl is a client engine for enterprise identity & access management system",
+	Short: "Bhojpur IAMctl is a command & control client engine for distributed enterprise identity & access management system",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		if verbose {
 			log.SetLevel(log.DebugLevel)

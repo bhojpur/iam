@@ -22,17 +22,17 @@ import {createButton} from "react-social-login-buttons";
 import {StaticBaseUrl} from "../Setting";
 
 function Icon({ width = 24, height = 24, color }) {
-    return <img src={`${StaticBaseUrl}/image/buttons/gitlab.svg`} alt="Sign in with GitLab" style={{width: 24, height: 24}} />;
+    return <img src={`${StaticBaseUrl}/image/buttons/infoflow.svg`} alt="Sign in with Infoflow" style={{width: 24, height: 24}} />;
 }
 
 const config = {
-    text: "Sign in with GitLab",
+    text: "Sign in with Infoflow",
     icon: Icon,
     iconFormat: name => `fa fa-${name}`,
-    style: {background: "rgb(255,255,255)", color: "#000000"},
-    activeStyle: {background: "rgb(100,150,250)"},
+    style: {background: "#ffffff", color: "#000000"},
+    activeStyle: {background: "#ededee"},
 };
 
-const GitLabLoginButton = createButton(config);
+const InfoflowLoginButton = createButton(config);
 
-export default GitLabLoginButton;
+export default InfoflowLoginButton;

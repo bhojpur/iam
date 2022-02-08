@@ -21,74 +21,30 @@ package cmd
 // THE SOFTWARE.
 
 import (
-	"flag"
 	"fmt"
 	"os"
 
-	"github.com/bhojpur/iam/pkg/authz"
-	"github.com/bhojpur/iam/pkg/object"
-	"github.com/bhojpur/iam/pkg/proxy"
-	"github.com/bhojpur/iam/pkg/router"
-	_ "github.com/bhojpur/iam/pkg/router"
-	logsvr "github.com/bhojpur/logger/pkg/engine"
-	_ "github.com/bhojpur/session/pkg/provider/redis"
-	websvr "github.com/bhojpur/web/pkg/engine"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
-var verbose bool
+var (
+	verbose bool
+)
+
+var rootCmdOpts struct {
+	Verbose bool
+}
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "iamsvr",
-	Short: "Bhojpur IAMengine is an identity & access management system for distributed enterprise",
+	Short: "Bhojpur IamEngine is a high performance identity & access management system for distributed enterprises",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		if verbose {
 			log.SetLevel(log.DebugLevel)
 			log.Debug("verbose logging enabled")
 		}
-		createDatabase := flag.Bool("createDatabase", false, "true if you need Bhojpur IAM to create database")
-		flag.Parse()
-		object.InitAdapter(*createDatabase)
-		object.InitDb()
-		object.InitDefaultStorageProvider()
-		object.InitLdapAutoSynchronizer()
-		proxy.InitHttpClient()
-		authz.InitAuthz()
-
-		go object.RunSyncUsersJob()
-
-		//websvr.DelStaticPath("/static")
-		websvr.SetStaticPath("/static", "pkg/webui/build/static")
-		websvr.BConfig.WebConfig.DirectoryIndex = true
-		websvr.SetStaticPath("/swagger", "swagger")
-		websvr.SetStaticPath("/files", "files")
-		websvr.InsertFilter("*", websvr.BeforeRouter, router.StaticFilter)
-		websvr.InsertFilter("*", websvr.BeforeRouter, router.AutoSigninFilter)
-		websvr.InsertFilter("*", websvr.BeforeRouter, router.AuthzFilter)
-		websvr.InsertFilter("*", websvr.BeforeRouter, router.RecordMessage)
-
-		websvr.BConfig.WebConfig.Session.SessionName = "bhojpur_session_id"
-		redisEndpoint, err := websvr.AppConfig.String("redisEndpoint")
-		if redisEndpoint == "" {
-			websvr.BConfig.WebConfig.Session.SessionProvider = "file"
-			websvr.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"
-		} else {
-			websvr.BConfig.WebConfig.Session.SessionProvider = "redis"
-			websvr.BConfig.WebConfig.Session.SessionProviderConfig = redisEndpoint
-		}
-		websvr.BConfig.WebConfig.Session.SessionCookieLifeTime = 3600 * 24 * 30
-		//websvr.BConfig.WebConfig.Session.SessionCookieSameSite = http.SameSiteNoneMode
-
-		err = logsvr.SetLogger("file", `{"filename":"logs/bhojpur_iam.log","maxdays":99999,"perm":"0770"}`)
-		if err != nil {
-			panic(err)
-		}
-		//logsvr.SetLevel(logs.LevelInformational)
-		logsvr.SetLogFuncCall(false)
-
-		websvr.Run()
 	},
 }
 

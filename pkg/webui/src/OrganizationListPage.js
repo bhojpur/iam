@@ -41,7 +41,7 @@ class OrganizationListPage extends BaseListPage {
       passwordType: "plain",
       PasswordSalt: "",
       phonePrefix: "86",
-      defaultAvatar: "https://static.bhojpur.net/logo.svg",
+      defaultAvatar: "https://static.bhojpur.net/image/logo.png",
       masterPassword: "",
       enableSoftDeletion: false,
     }

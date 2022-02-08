@@ -73,12 +73,12 @@ func (idp *GoogleIdProvider) GetToken(code string) (*oauth2.Token, error) {
 
 //{
 //	"id": "110613473084924141234",
-//	"email": "jimgreen@gmail.com",
+//	"email": "info@bhojpur.net",
 //	"verified_email": true,
-//	"name": "Jim Green",
-//	"given_name": "Jim",
-//	"family_name": "Green",
-//	"picture": "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg",
+//	"name": "Shashi Bhushan Rai",
+//	"given_name": "Shashi Bhushan",
+//	"family_name": "Rai",
+//	"picture": "https://static.bhojpur.net/image/avatars/photo.png",
 //	"locale": "en"
 //}
 

@@ -46,7 +46,7 @@ type SessionData struct {
 func (c *ApiController) IsGlobalAdmin() bool {
 	username := c.GetSessionUsername()
 	if strings.HasPrefix(username, "app/") {
-		// e.g., "app/app-casnode"
+		// e.g., "app/app-erp"
 		return true
 	}
 

@@ -48,10 +48,10 @@ export function getCountryRegionData() {
 }
 
 export function initServerUrl() {
-  const hostname = window.location.hostname;
-  if (hostname === "localhost") {
-    ServerUrl = `http://${hostname}:8000`;
-  }
+  //const hostname = window.location.hostname;
+  // if (hostname === "localhost") {
+  //   ServerUrl = `http://${hostname}:8000`;
+  // }
 }
 
 export function isLocalhost() {
@@ -120,13 +120,11 @@ export function getSignupItem(application, itemName) {
 }
 
 export function isValidEmail(email) {
-  // https://github.com/yiminghe/async-validator/blob/057b0b047f88fac65457bae691d6cb7c6fe48ce1/src/rule/type.ts#L9
   const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return emailRegex.test(email);
 }
 
 export function isValidPhone(phone) {
-  // https://learnku.com/articles/31543, `^s*$` filter empty email individually.
   const phoneRegex = /^\s*$|^1(3\d|4[5-9]|5[0-35-9]|6[2567]|7[0-8]|8\d|9[0-35-9])\d{8}$/;
   return phoneRegex.test(phone);
 }
@@ -198,7 +196,6 @@ export function myParseInt(i) {
 }
 
 export function openLink(link) {
-  // this.props.history.push(link);
   const w = window.open('about:blank');
   w.location.href = link;
 }
@@ -382,7 +379,7 @@ export function getClickable(text) {
 
 export function getProviderLogo(provider) {
   const idp = provider.type.toLowerCase().trim().split(' ')[0];
-  const url = `${StaticBaseUrl}/img/social_${idp}.png`;
+  const url = `${StaticBaseUrl}/image/social/${idp}.png`;
   return (
     <img width={30} height={30} src={url} alt={idp} />
   )
@@ -404,6 +401,8 @@ export function getProviderTypeOptions(category) {
         {id: 'WeCom', name: 'WeCom'},
         {id: 'Lark', name: 'Lark'},
         {id: 'GitLab', name: 'GitLab'},
+        {id: 'Baidu', name: 'Baidu'},
+        {id: 'Infoflow', name: 'Infoflow'},
         {id: 'Apple', name: 'Apple'},
         {id: 'AzureAD', name: 'AzureAD'},
         {id: 'Slack', name: 'Slack'},
@@ -437,6 +436,25 @@ export function getProviderTypeOptions(category) {
       {id: 'Aliyun IDaaS', name: 'Aliyun IDaaS'},
       {id: 'Keycloak', name: 'Keycloak'},
     ]);
+  } else if (category === "Payment") {
+    return ([
+      {id: 'Alipay', name: 'Alipay'},
+      {id: 'WeChat Pay', name: 'WeChat Pay'},
+      {id: 'PayPal', name: 'PayPal'},
+    ]);
+  } else {
+    return [];
+  }
+}
+
+export function getProviderSubTypeOptions(type) {
+  if (type === "WeCom" || type === "Infoflow") {
+    return (
+      [
+        {id: 'Internal', name: 'Internal'},
+        {id: 'Third-party', name: 'Third-party'},
+      ]
+    );
   } else {
     return [];
   }
@@ -601,6 +619,7 @@ export function getTagColor(s) {
 
 export function getTags(tags) {
   let res = [];
+  if (!tags) return res;
   tags.forEach((tag, i) => {
     res.push(
       <Tag color={getTagColor(tag)}>

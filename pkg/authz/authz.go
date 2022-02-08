@@ -21,7 +21,7 @@ package authz
 // THE SOFTWARE.
 
 import (
-	"github.com/bhojpur/iam/pkg/conf"
+	"github.com/bhojpur/iam/conf"
 	plcsvr "github.com/bhojpur/policy/pkg/engine"
 	model "github.com/bhojpur/policy/pkg/model"
 	ormadapter "github.com/bhojpur/policy/pkg/persist/orm-adapter"

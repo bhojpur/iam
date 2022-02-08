@@ -123,7 +123,7 @@ func (idp *GiteeIdProvider) GetToken(code string) (*oauth2.Token, error) {
     "id": 999999,
     "login": "xxx",
     "name": "xxx",
-    "avatar_url": "https://gitee.com/assets/no_portrait.png",
+    "avatar_url": "https://static.bhojpur.net/image/avatars/no_portrait.png",
     "url": "https://gitee.com/api/v5/users/xxx",
     "html_url": "https://gitee.com/xxx",
     "followers_url": "https://gitee.com/api/v5/users/xxx/followers",

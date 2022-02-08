@@ -33,5 +33,5 @@ var (
 
 const (
 	// VERSION represent Bhojpur IAM - Security Framework version.
-	VERSION = "0.0.1"
+	VERSION = "0.0.3"
 )

@@ -171,7 +171,7 @@ func (idp *LinkedInIdProvider) GetToken(code string) (*oauth2.Token, error) {
                     },
                     "identifiers": [
                         {
-                            "identifier": "https://media.licdn.cn/dms/image/C5603AQHbdR8RkG62yg/profile-displayphoto-shrink_100_100/0/1625279434135?e=1630540800&v=beta&t=Z-bQKf_jFv8L1uwr6X5AJLoTQRWZrueT7qrITDSvxWM",
+                            "identifier": "https://media.licdn.in/dms/image/C5603AQHbdR8RkG62yg/profile-displayphoto-shrink_100_100/0/1625279434135?e=1630540800&v=beta&t=Z-bQKf_jFv8L1uwr6X5AJLoTQRWZrueT7qrITDSvxWM",
                             "index": 0,
                             "mediaType": "image/jpeg",
                             "file": "urn:li:digitalmediaFile:(urn:li:digitalmediaAsset:C5603AQHbdR8RkG62yg,urn:li:digitalmediaMediaArtifactClass:profile-displayphoto-shrink_100_100,0)",

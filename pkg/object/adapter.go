@@ -27,7 +27,7 @@ import (
 	"github.com/bhojpur/dbm/pkg/core"
 	"github.com/bhojpur/dbm/pkg/orm"
 
-	"github.com/bhojpur/iam/pkg/conf"
+	"github.com/bhojpur/iam/conf"
 	"github.com/bhojpur/iam/pkg/utils"
 	websvr "github.com/bhojpur/web/pkg/engine"
 
@@ -39,7 +39,7 @@ import (
 var adapter *Adapter
 
 func InitConfig() {
-	err := websvr.LoadAppConfig("ini", "./pkg/conf/app.conf")
+	err := websvr.LoadAppConfig("ini", "conf/app.conf")
 	if err != nil {
 		panic(err)
 	}

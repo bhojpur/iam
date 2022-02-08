@@ -37,7 +37,7 @@ class ApplicationListPage extends BaseListPage {
       name: `application_${randomName}`,
       createdTime: moment().format(),
       displayName: `New Application - ${randomName}`,
-      logo: "https://static.bhojpur.net/logo.png",
+      logo: "https://static.bhojpur.net/image/logo.png",
       enablePassword: true,
       enableSignUp: true,
       enableSigninSession: true,

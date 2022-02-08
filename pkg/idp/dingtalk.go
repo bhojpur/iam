@@ -224,7 +224,7 @@ func (idp *DingTalkIdProvider) GetUseridByUnionid(accesstoken, unionid string) (
 		"mobile":"15236176076",
 		"active":true,
 		"admin":true,
-		"avatar":"https://static-legacy.dingtalk.com/media/lALPDeRETW9WAnnNAyDNAyA_800_800.png",
+		"avatar":"https://static.bhojpur.net/image/avatars/dingtalk.png",
 		"hide_mobile":false,
 		"userid":"manager4713",
 		"senior":false,

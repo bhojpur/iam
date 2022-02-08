@@ -55,7 +55,7 @@ class UserListPage extends BaseListPage {
       password: "123",
       passwordSalt: "",
       displayName: `New User - ${randomName}`,
-      avatar: "https://static.bhojpur.net/logo.svg",
+      avatar: "https://static.bhojpur.net/image/logo.png",
       email: `${randomName}@example.com`,
       phone: Setting.getRandomNumber(),
       address: [],
