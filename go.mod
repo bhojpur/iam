@@ -3,12 +3,12 @@ module github.com/bhojpur/iam
 go 1.17
 
 require (
-	github.com/bhojpur/dbm v0.0.1
+	github.com/bhojpur/dbm v0.0.3
 	github.com/bhojpur/drive v0.0.4
 	github.com/bhojpur/logger v0.0.3
 	github.com/bhojpur/policy v0.0.4
 	github.com/bhojpur/sms v0.0.1
-	github.com/bhojpur/web v0.0.4
+	github.com/bhojpur/web v0.0.5
 	github.com/lib/pq v1.10.4
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cobra v1.3.0
@@ -58,7 +58,6 @@ require (
 	github.com/prometheus/procfs v0.7.3 // indirect
 	github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/syndtr/goleveldb v1.0.0 // indirect
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.340 // indirect
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/sms v1.0.340 // indirect
 	github.com/volcengine/volc-sdk-golang v1.0.29 // indirect

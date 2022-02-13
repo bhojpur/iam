@@ -50,11 +50,11 @@ func InitConfig() {
 func InitAdapter(createDatabase bool) {
 	driverName, err := websvr.AppConfig.String("driverName")
 	if err != nil {
-		fmt.Errorf("driverName", err)
+		fmt.Errorf("database driver initialization", err)
 	}
 	dbName, err := websvr.AppConfig.String("dbName")
 	if err != nil {
-		fmt.Errorf("dbName", err)
+		fmt.Errorf(driverName+" database name initialization", err)
 	}
 	adapter = NewAdapter(driverName, conf.GetBhojpurConfDataSourceName(), dbName)
 	if createDatabase {
@@ -197,6 +197,11 @@ func (a *Adapter) createTable() {
 	}
 
 	err = a.Engine.Sync2(new(Cert))
+	if err != nil {
+		panic(err)
+	}
+
+	err = a.Engine.Sync2(new(Payment))
 	if err != nil {
 		panic(err)
 	}

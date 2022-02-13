@@ -1,4 +1,4 @@
-package router
+package main
 
 // Copyright (c) 2018 Bhojpur Consulting Private Limited, India. All rights reserved.
 
@@ -20,30 +20,6 @@ package router
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import (
-	"net/http"
-	"strings"
+func main() {
 
-	"github.com/bhojpur/iam/pkg/utils"
-	ctxsvr "github.com/bhojpur/web/pkg/context"
-)
-
-func StaticFilter(ctx *ctxsvr.Context) {
-	urlPath := ctx.Request.URL.Path
-	if strings.HasPrefix(urlPath, "/api/") || strings.HasPrefix(urlPath, "/.well-known/") {
-		return
-	}
-
-	path := "pkg/webui/build"
-	if urlPath == "/" {
-		path += "/index.html"
-	} else {
-		path += urlPath
-	}
-
-	if utils.FileExist(path) {
-		http.ServeFile(ctx.ResponseWriter, ctx.Request, path)
-	} else {
-		http.ServeFile(ctx.ResponseWriter, ctx.Request, "pkg/webui/build/index.html")
-	}
 }
